@@ -1,6 +1,6 @@
-import java.util.*;
-
 package SelectTur;
+
+import java.util.*;
 
 public class Mapa {
     public static final int NUMPROVINCIAS = 23; //todo: hola

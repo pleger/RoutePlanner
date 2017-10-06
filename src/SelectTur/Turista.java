@@ -7,62 +7,88 @@ public class Turista {
     public final static int SALIR = 2;
 
     private int estado;
-    private int ID;
     private double presupuesto;
     private int numper;
     private double tolerancia;
-    private int [] atractivos;
+    private boolean [] atractivos;
     private double [] satisfaccion;
-    private boolean [] posibilidades;
-    private int ubicacion;
 
-    public Turista(double presupuesto, int numper, double tolerancia, int [] atractivos, Mapa espana){
+    public Provincia provincia;
+    private MapaEspana espana;
+
+    public Turista(double presupuesto, int numper, double tolerancia, boolean[] atractivos, MapaEspana espana){
         this.estado = QUEDARSE;
         this.presupuesto = presupuesto;
         this.numper = numper;
         this.tolerancia = tolerancia;
         this.satisfaccion=satisfaccion; //todo calcular satisfaccion
-        this.ubicacion = Mapa.MADRID;
-        this.posibilidades = new boolean[Mapa.NUMPROVINCIAS];
-        this.atractivos = new int [5];
+        this.provincia = espana.getProvincia(ProvinciaFactory.MADRID);
+
+        this.atractivos = atractivos;
+        this.espana = espana;
+
     }
 
-    public void filtro(){
-        for (int i = 0; i < Mapa.NUMPROVINCIAS; ++i) {
-            if (presupuesto < ((espana.getCostoTransporte(this.ubicacion, i) + espana.getCostoAlojamiento(this.ubicacion)))) {// todo: costo aloj i?
-                posibilidades[i] = false; //todo: true or false
-            }
+    public boolean[] filtroPresupuesto(){
+        boolean[] posibilidades = new boolean[MapaEspana.NUMPROVINCIAS];
+        for (int i = 0; i < MapaEspana.NUMPROVINCIAS; ++i) {
+            posibilidades[i] = presupuesto > (espana.getCostoTransporte(this.provincia.getCodigo(), i) + provincia.getCostoEstadia());
         }
+        return posibilidades;
     }
 
-    public boolean debeSalir() { //todo: re-implementar
-        for (int i = 0; i < Mapa.NUMPROVINCIAS; ++i) {
+    public boolean debeSalir() {
+        boolean[] posibilidades = filtroPresupuesto();
+        for (int i = 0; i < MapaEspana.NUMPROVINCIAS; ++i) {
             if (posibilidades[i]) {
                 return false;
             }
         }
+
         this.estado = SALIR;
         return true;
     }
 
-    public void compararAtractivos(){
-        int [] cAtractivos = new int [Mapa.NUMPROVINCIAS];
-        for (int i = 0; i <= 22; ++i) {
-            if (posibilidades[i] == 0) {
-                for (int g = 0; g <= getdatractivos[0].lenght; ++g) {
-                    if (atractivos [g] == (espana.getdatractivos [i][g])) {
-                          cAtractivos [i]=+(1/atractivos.length);
-                    }
+    private double compararAtractivos(int codigoProvincia){
+        boolean[] posibilidades = filtroPresupuesto();
+        double provAtractivos = 0;
+
+        int contar = 0;
+        for (boolean atractivo : atractivos) {
+            contar += atractivo ? 1 : 0;
+        }
+
+        if (posibilidades[codigoProvincia]) {
+            boolean[] pAtractivos = espana.getProvincia(codigoProvincia).getAtractivos();
+            double s = 0;
+            for (int g = 0; g < 5; ++g) {
+                if (atractivos[g] == pAtractivos[g]) {
+                    provAtractivos += 1.0 / contar;
                 }
             }
         }
+        return provAtractivos;
     }
 
 
-    public void calcularsatisfaccion(){
-        double s = compararAtractivos(); //todo: implementar formula de satisfaction
-    }
+    public int calcularsatisfaccion(){
 
+        double k = 0;
+        int provinciaMax = 0;
+        double sMax = 0;
+
+        for (int i = 0; i < MapaEspana.NUMPROVINCIAS; ++i) {
+            double s = k * compararAtractivos(i); //todo: implementar formula de satisfaction
+
+            if (s > sMax) {
+                sMax = s;
+                provinciaMax = i;
+            }
+        }
+        System.out.print(provinciaMax);
+
+        return provinciaMax;
+    }
 
     public void accion(){
 
@@ -71,4 +97,5 @@ public class Turista {
     public int getEstado() {
         return estado;
     }
+    public Provincia getProvincia() { return this.provincia; }
 }

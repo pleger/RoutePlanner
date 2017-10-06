@@ -2,7 +2,7 @@ package SelectTur;
 
 public class Simulacion {
     public Simulacion() {
-        Mapa m = new Mapa();
+        MapaEspana m = new MapaEspana();
 
     }
 }

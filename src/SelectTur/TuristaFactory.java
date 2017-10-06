@@ -1,16 +1,24 @@
 package SelectTur;
 
+import java.util.Vector;
+
 public class TuristaFactory {
 
+    public static Vector<Turista> createTuristas() {
+        Vector<Turista> turistas = new Vector<Turista>();
 
 
 
-    public void asignarAtractivos(){
-        this.atractivos = Utils.randomatract();
+
+        return turistas;
     }
 
-    public void asignarTolerancia() {
-        this.tolerancia = Utils.randomt();
+       
+
+    public double[] asignarAtractivos(){ = Utils.;
+    }
+
+    public double asignarTolerancia() {  = Utils.getTolerancia();
     }
 
     public void asignarnumper() {

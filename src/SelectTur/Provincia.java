@@ -14,11 +14,12 @@ public class Provincia {
 
     public Provincia(int codProvincia, int comunidad, int estadia, boolean[] atractivos, double costoEstadia, int habitantes, int km2){
         this.codigo = codProvincia;
-        this.nombre = nombre;
         this.comunidad = comunidad;
         this.maxEstadia = estadia;
         this.atractivos = atractivos;
         this.costoEstadia = costoEstadia;
+        this.habitantes = habitantes;
+        this.km2 = km2;
         this.nombre = ProvinciaFactory.getName(codProvincia);
     }
 
@@ -34,8 +35,8 @@ public class Provincia {
     public String getNombre() { return this.nombre; }
     public int getComunidad() { return this.comunidad; }
     public boolean[] getAtractivos() { return this.atractivos; }
-
-
+    public int getHabitantes() { return habitantes; }
+    public int getKm2() { return km2; }
 
     @Override
     public String toString() {

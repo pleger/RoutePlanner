@@ -43,7 +43,7 @@ public class ProvinciaFactory {
 
    // public static Vector<Provincia> provincias = new Vector<Provincia>();
 
-    public static Vector<Provincia> createProvincias() {
+    public static Vector<Provincia> crearProvincias() {
         Vector<Provincia> provincias = new Vector<Provincia>();
         provincias.add(new Provincia(MADRID, COMMADRID,3, new boolean[]{CULTURA, false, GASTRONOMIA, DISCO, false},40.55,6454440,8027));
         provincias.add(new Provincia(ALMERIA, COMANDALUCIA, 1, new boolean[]{false, SOLYPLAYA, false, DISCO, DEPORTES},27.01,701688,8774));

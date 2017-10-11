@@ -41,7 +41,6 @@ public class Provincia {
     @Override
     public String toString() {
         return getNombre();
-        //return super.toString();
     }
 
 

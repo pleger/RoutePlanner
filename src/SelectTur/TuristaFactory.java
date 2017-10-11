@@ -4,28 +4,22 @@ import java.util.Vector;
 
 public class TuristaFactory {
 
-    public static Vector<Turista> createTuristas() {
+    private static final double[] tiposDeTuristas = new double[]{48.77, 43.14, 3.49, 3.17, 1.43};
+
+
+    public static Vector<Turista> crearTuristas(int tamano) {
         Vector<Turista> turistas = new Vector<Turista>();
 
-
-
-
+        for (int i = 0; i < tiposDeTuristas.length; ++i) {
+            for (int j = 0; j < tiposDeTuristas[i] * tamano; ++j) {
+                turistas.add(crearTurista(i));
+            }
+        }
         return turistas;
     }
 
-       
 
-    public double[] asignarAtractivos(){ = Utils.;
-    }
-
-    public double asignarTolerancia() {  = Utils.getTolerancia();
-    }
-
-    public void asignarnumper() {
-        this.numper = Utils.grupo();
-    }
-
-    public void asignarpresupuesto() {
-        this.presupuesto = Utils.randomp();
+    public static Turista crearTurista(int numeroPersonas) {
+        return new Turista(numeroPersonas, Utils.getPresupuesto(), Utils.getTolerancia(), Utils.getAtractivos());
     }
 }

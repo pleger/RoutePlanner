@@ -16,18 +16,22 @@ public class Turista {
     public Provincia provincia;
     private MapaEspana espana;
 
-    public Turista(double presupuesto, int numper, double tolerancia, boolean[] atractivos, MapaEspana espana){
+    public Turista(int numper, double presupuesto, double tolerancia, boolean[] atractivos){
         this.estado = QUEDARSE;
         this.presupuesto = presupuesto;
         this.numper = numper;
         this.tolerancia = tolerancia;
-        this.satisfaccion=satisfaccion; //todo calcular satisfaccion
-        this.provincia = espana.getProvincia(ProvinciaFactory.MADRID);
-
+        this.satisfaccion = satisfaccion; //todo calcular satisfaccion
         this.atractivos = atractivos;
         this.espana = espana;
 
     }
+
+    public void mover(Provincia provincia) {
+        this.provincia = provincia;
+    }
+
+
 
     public boolean[] filtroPresupuesto(){
         boolean[] posibilidades = new boolean[MapaEspana.NUMPROVINCIAS];
@@ -71,7 +75,7 @@ public class Turista {
     }
 
 
-    public int calcularsatisfaccion(){
+    public int calcularSatisfaccion(){
 
         double k = 0;
         int provinciaMax = 0;

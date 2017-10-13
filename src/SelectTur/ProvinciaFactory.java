@@ -34,14 +34,13 @@ public class ProvinciaFactory {
     public static final int GIPUZKOA = 21;
     public static final int BIZKAIA = 22;
 
+    public static final int NUMERO_PREFERENCIAS = 5;
     public static final boolean CULTURA = true;
     public static final boolean SOLYPLAYA = true;
     public static final boolean GASTRONOMIA = true;
     public static final boolean DISCO = true;
     public static final boolean DEPORTES = true;
 
-
-   // public static Vector<Provincia> provincias = new Vector<Provincia>();
 
     public static Vector<Provincia> crearProvincias() {
         Vector<Provincia> provincias = new Vector<Provincia>();
@@ -73,10 +72,9 @@ public class ProvinciaFactory {
     }
 
 
+    public static String getNombre(int codigo) {
 
-    public static String getName(int nombre) {
-
-        switch (nombre) {
+        switch (codigo) {
             case 0: return "MADRID, C. DE MADRID";
             case 1: return "ALMERIA, C. DE ANDALUCIA";
             case 2: return "CADIZ, C. DE ANDALUCIA";

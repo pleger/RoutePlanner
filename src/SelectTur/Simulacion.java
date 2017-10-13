@@ -1,5 +1,6 @@
 package SelectTur;
 
+import java.util.HashMap;
 import java.util.Vector;
 
 public class Simulacion {
@@ -7,11 +8,16 @@ public class Simulacion {
     private Vector<Turista> turistas;
     private int periodos;
     private MapaEspana espana;
+    private HashMap<String,String> configuracion;
 
     public Simulacion(int numeroAgentes, int periodos) {
         this.periodos = periodos;
         this.espana = new MapaEspana();
         this.turistas = TuristaFactory.crearTuristas(numeroAgentes);
+        this.configuracion = new HashMap<String, String>();
+
+        configuracion.put("Periodos", "" + periodos);
+        configuracion.put("NumeroAgentes", "" + numeroAgentes);
 
         asignarComunidadTuristas();
         ejecutar();
@@ -41,4 +47,7 @@ public class Simulacion {
         //todo: implementar cada paso
     }
 
+    public HashMap<String, String> getConfiguracion() {
+        return configuracion;
+    }
 }

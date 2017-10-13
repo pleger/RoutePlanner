@@ -1,7 +1,5 @@
 package SelectTur;
 
-import java.util.Map;
-
 public class Turista {
 
     public final static int QUEDARSE = 0;
@@ -74,7 +72,7 @@ public class Turista {
         if (posibilidades[codigoProvincia]) {
             boolean[] pAtractivos = espana.getProvincia(codigoProvincia).getAtractivos();
             double s = 0;
-            for (int g = 0; g < 5; ++g) {
+            for (int g = 0; g < ProvinciaFactory.NUMERO_PREFERENCIAS; ++g) {
                 if (atractivos[g] == pAtractivos[g]) {
                     provAtractivos += 1.0 / contar;
                 }

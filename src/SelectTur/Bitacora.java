@@ -25,31 +25,31 @@ public class Bitacora {
         }
     }
 
-    private Provincia obtenerProvidencia(int i) {
+    public Provincia obtenerProvidencia(int i) {
         return (Provincia) (records.get(i).get(5));
     }
 
-    private double obtenerSatisfaccion(int i) {
+    public double obtenerSatisfaccion(int i) {
         return (Double) (records.get(i).get(4));
     }
 
-    private double obtenerPresupuesto(int i) {
+    public double obtenerPresupuesto(int i) {
         return (Double) (records.get(i).get(3));
     }
 
-    private int obtenerNumeroTourista(int i) {
+    public int obtenerNumeroTourista(int i) {
         return (Integer) (records.get(i).get(2));
     }
 
-    private int obtenerDia(int i) {
+    public int obtenerDia(int i) {
         return (Integer) (records.get(i).get(1));
     }
 
-    private int obtenerTourista(int i) {
+    public int obtenerTourista(int i) {
        return (Integer) (records.get(i).get(0));
     }
 
-    private int size() {
+    public int size() {
         return records.size();
     }
 

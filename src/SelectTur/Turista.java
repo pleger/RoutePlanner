@@ -17,7 +17,7 @@ public class Turista {
     private Bitacora bitacora;
 
     private Provincia provincia;
-    private MapaEspana espana;
+    private MapaEspana espana; //todo: eliminar? donde es usado?
 
     public Turista(int numper, double presupuesto, double tolerancia, boolean[] atractivos) {
         this.estado = QUEDARSE;
@@ -56,13 +56,15 @@ public class Turista {
             }
         }
 
+
+
         this.estado = SALIR;
         return true;
     }
 
-    private double compararAtractivos(int codigoProvincia) {
+    private double compararPreferencias(int codigoProvincia) {
         boolean[] posibilidades = filtroPresupuesto();
-        double provAtractivos = 0;
+        double sumaPreferencias = 0;
 
         int contar = 0;
         for (boolean atractivo : atractivos) {
@@ -71,21 +73,20 @@ public class Turista {
 
         if (posibilidades[codigoProvincia]) {
             boolean[] pAtractivos = espana.getProvincia(codigoProvincia).getAtractivos();
-            double s = 0;
             for (int g = 0; g < ProvinciaFactory.NUMERO_PREFERENCIAS; ++g) {
                 if (atractivos[g] == pAtractivos[g]) {
-                    provAtractivos += 1.0 / contar;
+                    sumaPreferencias += 1.0 / contar;
                 }
             }
         }
-        return provAtractivos;
+        return sumaPreferencias;
     }
 
     public double calcularSatisfaccion(int codigo) {
         double k = 0;
 
         int codigoP = provincia.getCodigo();
-        double satisfaccion = k * compararAtractivos(codigoP); //todo:falta lo demas;
+        double satisfaccion = k * compararPreferencias(codigoP); //todo:falta lo demas;
 
         return satisfaccion;
     }
@@ -101,7 +102,7 @@ public class Turista {
 
 
 
-    public int obtenerProvinciaMaximo() {
+    public int obtenerProximaProvincia() {
         double k = 0;
         int provinciaMax = 0;
         double sMax = 0;
@@ -117,7 +118,9 @@ public class Turista {
         return provinciaMax;
     }
 
-    public void accion() {
+    public void proximoPaso() {
+        int codigoP = obtenerProximaProvincia();
+        //todo: mucho que hacer
 
     }
 

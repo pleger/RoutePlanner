@@ -72,6 +72,7 @@ public class ProvinciaFactory {
     }
 
 
+
     public static String getNombre(int codigo) {
 
         switch (codigo) {

@@ -46,21 +46,31 @@ public class GeneradorDato {
         Sheet configuracionSheet = workbook.createSheet("Configuration");
         Sheet resultSheet = workbook.createSheet("Results");
 
-        Row row = configuracionSheet.createRow(0);
-        row.createCell(0).setCellValue("Periodo");
-        row.createCell(1).setCellValue(periodos);
-        
+        Row row1 = configuracionSheet.createRow(0);
+        row1.createCell(0).setCellValue("Periodo");
+        row1.createCell(1).setCellValue(periodos);
+
+        Row row2 = configuracionSheet.createRow(0);
+        row2.createCell(0).setCellValue("Numero de Agentes");
+        row2.createCell(1).setCellValue(numeroAgentes);
 
 
         //for info of experiments
-        for (int rowNum = 0; rowNum < infoLog.size(); ++rowNum) {
-            String[] info = infoLog.get(rowNum);
-            Row row = resultSheet.createRow(rowNum);
+        for (int rowNum = 0; rowNum < bitacora.size(); ++rowNum) {
+            int touristaID = bitacora.obtenerTourista(rowNum);
+            int dia = bitacora.obtenerDia(rowNum);
+            int numper = bitacora.obtenerNumeroTourista(rowNum);
+            double presupuesto = bitacora.obtenerPresupuesto(rowNum);
+            double satisfaccion = bitacora.obtenerSatisfaccion(rowNum);
+            Provincia provincia = bitacora.obtenerProvidencia(rowNum);
 
-            for (int cellNum = 0; cellNum < info.length; ++cellNum) {
-                Cell cell = row.createCell(cellNum);
-                cell.setCellValue(info[cellNum]);
-            }
+            Row rowResult = resultSheet.createRow(rowNum);
+            rowResult.createCell(0).setCellValue(touristaID);
+            rowResult.createCell(1).setCellValue(dia);
+            rowResult.createCell(2).setCellValue(numper);
+            rowResult.createCell(3).setCellValue(presupuesto);
+            rowResult.createCell(4).setCellValue(satisfaccion);
+            rowResult.createCell(5).setCellValue(provincia.toString());
         }
 
         try {

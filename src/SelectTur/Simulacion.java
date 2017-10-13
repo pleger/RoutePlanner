@@ -9,18 +9,22 @@ public class Simulacion {
     private int periodos;
     private MapaEspana espana;
     private HashMap<String,String> configuracion;
+    private Bitacora bitacoraTotal;
+    private String descripcion;
 
-    public Simulacion(int numeroAgentes, int periodos) {
+    public Simulacion(int numeroAgentes, int periodos, String descripcion) {
+        this.bitacoraTotal = new Bitacora();
         this.periodos = periodos;
         this.espana = new MapaEspana();
         this.turistas = TuristaFactory.crearTuristas(numeroAgentes);
         this.configuracion = new HashMap<String, String>();
+        this.descripcion = descripcion;
 
         configuracion.put("Periodos", "" + periodos);
         configuracion.put("NumeroAgentes", "" + numeroAgentes);
 
         asignarComunidadTuristas();
-        ejecutar();
+
     }
 
     public void ejecutar() {
@@ -31,6 +35,17 @@ public class Simulacion {
             registrarRuta(dia); //todo: se registra cada ruta
         }
 
+        generarBitocoraTotal();
+    }
+
+    public void generarExcel() {
+        GeneradorDato.writeXLS(bitacoraTotal,configuracion, descripcion);
+    }
+
+    private void generarBitocoraTotal() {
+        for (Turista turista : turistas) {
+            bitacoraTotal.agregar(turista.obtenerBitacora());
+        }
     }
 
     private void registrarRuta(int dia) {
@@ -43,8 +58,10 @@ public class Simulacion {
         //todo: se debe asignar las comunidades iniciales a los turistas
     }
 
-    public void proximoPaso() {
-        //todo: implementar cada paso
+    public void proximoPaso() {      //todo:modificar
+        for (Turista turista: turistas) {
+            turista.proximoPaso();
+        }
     }
 
     public HashMap<String, String> getConfiguracion() {

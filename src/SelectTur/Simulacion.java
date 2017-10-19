@@ -12,11 +12,11 @@ public class Simulacion {
     private Bitacora bitacoraTotal;
     private String descripcion;
 
-    public Simulacion(int numeroAgentes, int periodos, String descripcion) {
+    public Simulacion(int numeroAgentes, int periodos, double[][] ubicacion, String descripcion) {
         this.bitacoraTotal = new Bitacora();
         this.periodos = periodos;
         this.espana = new MapaEspana();
-        this.turistas = TuristaFactory.crearTuristas(numeroAgentes);
+        this.turistas = TuristaFactory.crearTuristas(numeroAgentes, ubicacion);
         this.configuracion = new HashMap<String, String>();
         this.descripcion = descripcion;
 

@@ -7,27 +7,23 @@ import org.apache.commons.math3.distribution.BinomialDistribution;
 
 public class Utils {
 
-    public static BinomialDistribution bda = new BinomialDistribution(5, 0.5);
-    public static NormalDistribution ndp = new NormalDistribution(100.87,67.16);
+    private static double[] atractivos = new double[]{}; //todo: dar valores
+
+    public static NormalDistribution ndp = new NormalDistribution(173.9222,90.75885);
     public static Random random = new Random();
 
-    public static double getTolerancia() {
-        return 0.2 + random.nextDouble() * (0.28 - 0.2); //u = 0.25
-    }
-
     public static double getPresupuesto() {
-        return ndp.sample();
+        return ndp.sample()*Main.PERIODOS;
     }
 
     public static boolean[] getAtractivos() {
-        int[] arrInteger = bda.sample(5);
-        boolean[] arrBoolean = new boolean[arrInteger.length];
+        boolean[] atractivos = new boolean [Main.PROBABILIDADES_PREFERENCE.length];
 
-        for (int i = 0; i < arrInteger.length; ++i) {
-            arrBoolean[i] = arrInteger[i] == 1;
+        for (int i = 0; i < 3; ++i) {
+            atractivos[i] = random.nextDouble() <= Main.PROBABILIDADES_PREFERENCE[i];
         }
 
-        return arrBoolean;
+        return atractivos;
     }
 
 

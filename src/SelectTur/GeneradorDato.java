@@ -57,18 +57,21 @@ public class GeneradorDato {
         for (int rowNum = 0; rowNum < bitacora.size(); ++rowNum) {
             int touristaID = bitacora.obtenerTourista(rowNum);
             int dia = bitacora.obtenerDia(rowNum);
-            int numper = bitacora.obtenerNumeroTourista(rowNum);
             double presupuesto = bitacora.obtenerPresupuesto(rowNum);
             double satisfaccion = bitacora.obtenerSatisfaccion(rowNum);
             Provincia provincia = bitacora.obtenerProvidencia(rowNum);
+            boolean[] atractivos = bitacora.obtenerAtractivos(rowNum);
 
             Row rowResult = resultSheet.createRow(rowNum);
             rowResult.createCell(0).setCellValue(touristaID);
-            rowResult.createCell(1).setCellValue(dia);
-            rowResult.createCell(2).setCellValue(numper);
-            rowResult.createCell(3).setCellValue(presupuesto);
-            rowResult.createCell(4).setCellValue(satisfaccion);
-            rowResult.createCell(5).setCellValue(provincia.toString());
+            rowResult.createCell(1).setCellValue(atractivos[0]);
+            rowResult.createCell(2).setCellValue(atractivos[1]);
+            rowResult.createCell(3).setCellValue(atractivos[2]);
+
+            rowResult.createCell(4).setCellValue(dia);
+            rowResult.createCell(5).setCellValue(presupuesto);
+            rowResult.createCell(6).setCellValue(satisfaccion);
+            rowResult.createCell(7).setCellValue(provincia.toString());
         }
 
         try {

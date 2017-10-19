@@ -10,22 +10,20 @@ public class Turista {
     private int id;
     private int estado;
     private double presupuesto;
-    private int numper;
-    private double tolerancia;  //todo: ???
     private boolean[] atractivos;
+    private int ubicacion;
     private double satisfaccion; //todo: ???
     private Bitacora bitacora;
 
     private Provincia provincia;
     private MapaEspana espana; //todo: eliminar? donde es usado?
 
-    public Turista(int numper, double presupuesto, double tolerancia, boolean[] atractivos) {
+    public Turista(double presupuesto, boolean[] atractivos, int ubicacion) {
         this.estado = QUEDARSE;
         this.presupuesto = presupuesto;
-        this.numper = numper;
-        this.tolerancia = tolerancia;
         this.satisfaccion = 0; //todo calcular satisfaccion
         this.atractivos = atractivos;
+        this.ubicacion = ubicacion;
         this.id = ++userID;
         this.bitacora = new Bitacora();
     }
@@ -56,8 +54,7 @@ public class Turista {
             }
         }
 
-
-
+            //todo: sacar agente
         this.estado = SALIR;
         return true;
     }
@@ -73,7 +70,7 @@ public class Turista {
 
         if (posibilidades[codigoProvincia]) {
             boolean[] pAtractivos = espana.getProvincia(codigoProvincia).getAtractivos();
-            for (int g = 0; g < ProvinciaFactory.NUMERO_PREFERENCIAS; ++g) {
+            for (int g = 0; g < Main.PROBABILIDADES_PREFERENCE.length; ++g) {
                 if (atractivos[g] == pAtractivos[g]) {
                     sumaPreferencias += 1.0 / contar;
                 }
@@ -120,12 +117,13 @@ public class Turista {
 
     public void proximoPaso() {
         int codigoP = obtenerProximaProvincia();
+        this.ubicacion = codigoP;
         //todo: mucho que hacer
 
     }
 
     public void registrarBitacora(int dia) {
-        bitacora.agregar(hashCode(), dia, numper, presupuesto, satisfaccion, provincia);
+        bitacora.agregar(hashCode(), dia, presupuesto, satisfaccion, atractivos, provincia);
     }
 
     public Bitacora obtenerBitacora() {

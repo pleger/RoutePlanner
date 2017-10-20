@@ -16,7 +16,7 @@ public class Simulacion {
         this.bitacoraTotal = new Bitacora();
         this.periodos = periodos;
         this.espana = new MapaEspana();
-        this.turistas = TuristaFactory.crearTuristas(numeroAgentes, ubicacion);
+        this.turistas = TuristaFactory.crearTuristas();
         this.configuracion = new HashMap<String, String>();
         this.descripcion = descripcion;
 

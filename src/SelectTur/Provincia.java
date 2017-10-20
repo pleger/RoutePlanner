@@ -8,7 +8,7 @@ public class Provincia {
     private double costoEstadia;
     private String nombre;
     private int comunidad;
-    private boolean[] atractivos = new boolean[ProvinciaFactory.NUMERO_PREFERENCIAS];
+    private boolean[] atractivos = new boolean[Main.PROBABILIDADES_PREFERENCIAS.length];
 
     public Provincia(int codProvincia, int comunidad, int estadia, boolean[] atractivos, double costoEstadia){
         this.codigo = codProvincia;

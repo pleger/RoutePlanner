@@ -2,7 +2,9 @@ package SelectTur;
 
 import java.util.Random;
 import org.apache.commons.math3.distribution.NormalDistribution;
-import org.apache.commons.math3.distribution.BinomialDistribution;
+
+import static SelectTur.Main.PERIODOS;
+
 
 
 public class Utils {
@@ -13,18 +15,10 @@ public class Utils {
     public static Random random = new Random();
 
     public static double getPresupuesto() {
-        return ndp.sample()*Main.PERIODOS;
+        return ndp.sample()* PERIODOS;
     }
 
-    public static boolean[] getAtractivos() {
-        boolean[] atractivos = new boolean [Main.PROBABILIDADES_PREFERENCE.length];
 
-        for (int i = 0; i < 3; ++i) {
-            atractivos[i] = random.nextDouble() <= Main.PROBABILIDADES_PREFERENCE[i];
-        }
-
-        return atractivos;
-    }
 
 
 

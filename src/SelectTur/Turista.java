@@ -70,7 +70,7 @@ public class Turista {
 
         if (posibilidades[codigoProvincia]) {
             boolean[] pAtractivos = espana.getProvincia(codigoProvincia).getAtractivos();
-            for (int g = 0; g < Main.PROBABILIDADES_PREFERENCE.length; ++g) {
+            for (int g = 0; g < Main.PROBABILIDADES_PREFERENCIAS.length; ++g) {
                 if (atractivos[g] == pAtractivos[g]) {
                     sumaPreferencias += 1.0 / contar;
                 }

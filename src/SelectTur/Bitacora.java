@@ -18,7 +18,7 @@ class Bitacora {
             int dia = bit.obtenerDia(i);
             double presupuesto = bit.obtenerPresupuesto(i);
             double satisfaccion = bit.obtenerSatisfaccion(i);
-            int provincia = bit.obtenerProvidencia(i);
+            int provincia = bit.obtenerProvincia(i);
             boolean[] atractivos = bit.obtenerAtractivos(i);
             boolean activo = bit.obtenerActivo(i);
 
@@ -26,24 +26,24 @@ class Bitacora {
         }
     }
 
-    int obtenerProvidencia(int i) {
-        return (Integer) (records.get(i).get(5));
-    }
 
-    double obtenerSatisfaccion(int i) {
-        return (Double) (records.get(i).get(4));
-    }
-
-    double obtenerPresupuesto(int i) {
-        return (Double) (records.get(i).get(3));
+    int obtenerTourista(int i) {
+        return (Integer) (records.get(i).get(0));
     }
 
     int obtenerDia(int i) {
         return (Integer) (records.get(i).get(1));
     }
 
-    int obtenerTourista(int i) {
-       return (Integer) (records.get(i).get(0));
+    double obtenerPresupuesto(int i) {
+        return (Double) (records.get(i).get(2));
+    }
+    int obtenerProvincia(int i) {
+        return (Integer) (records.get(i).get(3));
+    }
+
+    double obtenerSatisfaccion(int i) {
+        return (Double) (records.get(i).get(4));
     }
 
     boolean[] obtenerAtractivos(int i) {return (boolean[]) (records.get(i).get(5)); }

@@ -36,9 +36,9 @@ class TuristaFactory {
 
             ubicaciones[i] = (int) UBICACIONES_INICIALES[contadorUbicacion][0];
 
-            preferencias[i][0] = PROBABILIDADES_PREFERENCIAS[contadorPreferencias][0] == 1;
-            preferencias[i][1] = PROBABILIDADES_PREFERENCIAS[contadorPreferencias][1] == 1;
-            preferencias[i][2] = PROBABILIDADES_PREFERENCIAS[contadorPreferencias][2] == 1;
+            preferencias[i][0] = PROBABILIDADES_PREFERENCIAS[0][contadorPreferencias] == 1;
+            preferencias[i][1] = PROBABILIDADES_PREFERENCIAS[1][contadorPreferencias] == 1;
+            preferencias[i][2] = PROBABILIDADES_PREFERENCIAS[2][contadorPreferencias] == 1;
         }
 
         Collections.shuffle(Arrays.asList(ubicaciones));

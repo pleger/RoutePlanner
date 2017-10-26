@@ -22,7 +22,6 @@ public class Turista {
     Turista(double presupuesto, boolean[] preferencias, int ubicacion) {
         this.activo = true;
         this.presupuesto = presupuesto;
-        this.satisfaccion = 0;
         this.preferencias = preferencias;
         this.ubicacion = ubicacion;
         this.id = ++userID;
@@ -35,6 +34,8 @@ public class Turista {
             provFactibles[i] = true;
             estadias[i] = 0;
         }
+
+        this.satisfaccion = compararPreferencias(ubicacion);
     }
 
     @Override
@@ -67,6 +68,7 @@ public class Turista {
         for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
             if (provFactibles[i]) {
                 this.activo = true;
+                return;
             }
         }
 
@@ -117,7 +119,7 @@ public class Turista {
 
         satisfaccion = compararPreferencias(ubicacion);
         double[] satisfacciones = calcularSatisfacciones();
-        double sMax = 0;
+        double sMax = satisfaccion;
         ArrayList<Integer> provinciasMax = new ArrayList<Integer>();
 
         for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
@@ -131,7 +133,9 @@ public class Turista {
         }
 
         Random random = new Random();
-        return provinciasMax.size() > 0 ? provinciasMax.get(random.nextInt(provinciasMax.size())) : ubicacion;
+        return  sMax == satisfaccion && provFactibles[ubicacion]?  //todo: parche!!!
+                ubicacion :
+                provinciasMax.size() > 0 ? provinciasMax.get(random.nextInt(provinciasMax.size())) : ubicacion;
     }
 
 

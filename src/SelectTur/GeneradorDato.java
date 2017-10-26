@@ -34,10 +34,20 @@ class GeneradorDato {
         row1.createCell(0).setCellValue("Periodo");
         row1.createCell(1).setCellValue(periodos);
 
-        Row row2 = configuracionSheet.createRow(0);
+        Row row2 = configuracionSheet.createRow(1);
         row2.createCell(0).setCellValue("Numero de Agentes");
         row2.createCell(1).setCellValue(numeroAgentes);
 
+        Row rowResultHeader = resultSheet.createRow(0);
+        rowResultHeader.createCell(0).setCellValue("ID TURISTA");
+        rowResultHeader.createCell(1).setCellValue("Preferencia 1");
+        rowResultHeader.createCell(2).setCellValue("Preferencia 2");
+        rowResultHeader.createCell(3).setCellValue("Preferencia 3");
+        rowResultHeader.createCell(4).setCellValue("Periodo");
+        rowResultHeader.createCell(5).setCellValue("Satisfaccion");
+        rowResultHeader.createCell(5).setCellValue("Presupuesto");
+        rowResultHeader.createCell(6).setCellValue("Provincia");
+        rowResultHeader.createCell(7).setCellValue("Activo");
 
         //for info of experiments
         for (int rowNum = 0; rowNum < bitacora.size(); ++rowNum) {
@@ -46,11 +56,11 @@ class GeneradorDato {
 
             double presupuesto = bitacora.obtenerPresupuesto(rowNum);
             double satisfaccion = bitacora.obtenerSatisfaccion(rowNum);
-            int provincia = bitacora.obtenerProvidencia(rowNum);
+            int provincia = bitacora.obtenerProvincia(rowNum);
             boolean[] preferencias = bitacora.obtenerAtractivos(rowNum);
             boolean activo = bitacora.obtenerActivo(rowNum);
 
-            Row rowResult = resultSheet.createRow(rowNum);
+            Row rowResult = resultSheet.createRow(rowNum + 1);
             rowResult.createCell(0).setCellValue(touristaID);
             rowResult.createCell(1).setCellValue(preferencias[0]);
             rowResult.createCell(2).setCellValue(preferencias[1]);
@@ -59,7 +69,7 @@ class GeneradorDato {
             rowResult.createCell(4).setCellValue(dia);
             rowResult.createCell(5).setCellValue(presupuesto);
             rowResult.createCell(6).setCellValue(satisfaccion);
-            rowResult.createCell(7).setCellValue(provincia);
+            rowResult.createCell(7).setCellValue(ProvinciaFactory.getNombre(provincia));
             rowResult.createCell(8).setCellValue(activo);
         }
 

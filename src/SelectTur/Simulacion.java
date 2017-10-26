@@ -27,7 +27,7 @@ public class Simulacion {
     void ejecutar() {
         registrarRuta(0);
 
-        for (int dia = 0; dia < periodos; ++dia) {
+        for (int dia = 1; dia <= periodos; ++dia) {
             proximoPaso();
             registrarRuta(dia);
         }

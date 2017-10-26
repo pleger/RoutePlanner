@@ -100,29 +100,30 @@ class ProvinciaFactory {
     static String getNombre(int codigo) {
 
         switch (codigo) {
-            case 0: return "MADRID, C. DE MADRID";
-            case 1: return "ALMERIA, C. DE ANDALUCIA";
-            case 2: return "CADIZ, C. DE ANDALUCIA";
-            case 3: return "CORDOBA, C. DE ANDALUCIA";
-            case 4: return "GRANADA, C. DE ANDALUCIA";
-            case 5: return "HUELVA, C. DE ANDALUCIA";
-            case 6: return "JAEN, C. DE ANDALUCIA";
-            case 7: return "MALAGA, C. DE ANDALUCIA";
-            case 8: return "SEVILLA, C. DE ANDALUCIA";
-            case 9: return "BARCELONA, C. DE CATALUNA";
-            case 10: return "GIRONA, C. DE CATALUNA";
-            case 11: return "LLEIDA, C. DE CATALUNA";
-            case 12: return "TARRAGONA, C. DE CATALUNA";
-            case 13: return "ALICANTE, C. VALENCIANA";
-            case 14: return "CASTELLON, C. VALENCIANA";
-            case 15: return "VALENCIA, C. VALENCIANA";
-            case 16: return "ACORUNA, C. DE GALICIA";
-            case 17: return "LUGO, C. DE GALICIA";
-            case 18: return "OURENSE, C. DE GALICIA";
-            case 19: return "PONTEVEDRA, C. DE GALICIA";
-            case 20: return "ALAVA, PAIS VASCO";
-            case 21: return "GIPUZKOA, PAIS VASCO";
-            case 22: return "BIZKAIA, PAIS VASCO";
+            case 0: return "MADRID";
+            case 1: return "ALMERIA";
+            case 2: return "CADIZ";
+            case 3: return "CORDOBA";
+            case 4: return "GRANADA";
+            case 5: return "HUELVA";
+            case 6: return "JAEN";
+            case 7: return "MALAGA";
+            case 8: return "SEVILLA";
+            case 9: return "BARCELONA";
+            case 10: return "GIRONA";
+            case 11: return "LLEIDA";
+            case 12: return "TARRAGONA";
+            case 13: return "ALICANTE";
+            case 14: return "CASTELLON";
+            case 15: return "VALENCIA";
+            case 16: return "ACORUNA";
+            case 17: return "LUGO";
+            case 18: return "OURENSE";
+            case 19: return "PONTEVEDRA";
+            case 20: return "ALAVA";
+            case 21: return "GIPUZKOA";
+            case 22: return "BIZKAIA";
+            
             default: return "ERROR DE CODIGO";
         }
     }

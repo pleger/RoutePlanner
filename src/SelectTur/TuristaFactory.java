@@ -1,42 +1,57 @@
 package SelectTur;
 
-import java.util.Vector;
-import static SelectTur.Main.UBICACION;
-import static SelectTur.Main.NUMERO_AGENTES;
-import static SelectTur.Main.PROBABILIDADES_PREFERENCIAS;
+import org.apache.commons.math3.distribution.NormalDistribution;
 
-public class TuristaFactory {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
+import static SelectTur.Main.*;
+
+class TuristaFactory {
+
+    private static NormalDistribution ndp = new NormalDistribution(173.9222, 90.75885);
 
 
+    static ArrayList<Turista> crearTuristas() {
+        ArrayList<Turista> turistas = new ArrayList<Turista>();
 
-    public static Vector<Turista> crearTuristas() {
-        Vector<Turista> turistas = new Vector<Turista>();
-        boolean[] atractivos = new boolean [PROBABILIDADES_PREFERENCIAS.length];
+        int[] ubicaciones = new int[NUMERO_AGENTES];
+        boolean[][] preferencias = new boolean[NUMERO_AGENTES][NUMERO_PREFERENCIAS];
 
-        int t = 0;
-        int a = 0;
-        int codigoInicial = (int) UBICACION[t][0];
-        atractivos[0] = PROBABILIDADES_PREFERENCIAS[0][a] == 1;
-        atractivos[1] = PROBABILIDADES_PREFERENCIAS[1][a] == 1;
-        atractivos[2] = PROBABILIDADES_PREFERENCIAS[2][a] == 1;
+        int contadorUbicacion = 0;
+        int contadorPreferencias = 0;
 
-        for (int i = 1; i <= NUMERO_AGENTES; ++i) {
-                 double k = 1.0*i/ NUMERO_AGENTES;
+        for (int i = 0; i < NUMERO_AGENTES; ++i) {
 
-                 if ( k >= UBICACION[t][1]) {
-                     t++;
-                     codigoInicial = (int) UBICACION[t][0];
-                 }
+            double avanceAgentes = 1.0 * i / NUMERO_AGENTES;
 
-                 if ( k >= PROBABILIDADES_PREFERENCIAS[3][a]) {
-                     a++;
-                     atractivos[0] = PROBABILIDADES_PREFERENCIAS[0][a] == 1;
-                     atractivos[1] = PROBABILIDADES_PREFERENCIAS[1][a] == 1;
-                     atractivos[2] = PROBABILIDADES_PREFERENCIAS[2][a] == 1;
-                 }
+            if (avanceAgentes >= UBICACIONES_INICIALES[contadorUbicacion][1]) {
+                ++contadorUbicacion;
+            }
 
-                 turistas.add(new Turista(Utils.getPresupuesto(), atractivos, codigoInicial));
+            if (avanceAgentes >= PROBABILIDADES_PREFERENCIAS[3][contadorPreferencias]) {
+                ++contadorPreferencias;
+            }
+
+            ubicaciones[i] = (int) UBICACIONES_INICIALES[contadorUbicacion][0];
+
+            preferencias[i][0] = PROBABILIDADES_PREFERENCIAS[contadorPreferencias][0] == 1;
+            preferencias[i][1] = PROBABILIDADES_PREFERENCIAS[contadorPreferencias][1] == 1;
+            preferencias[i][2] = PROBABILIDADES_PREFERENCIAS[contadorPreferencias][2] == 1;
         }
+
+        Collections.shuffle(Arrays.asList(ubicaciones));
+
+        for (int i = 0; i < NUMERO_AGENTES; ++i) {
+            turistas.add(new Turista(getPresupuesto(), preferencias[i], ubicaciones[i]));
+        }
+
         return turistas;
     }
+
+    private static double getPresupuesto() {
+        return ndp.sample() * PERIODOS;
+    }
+
 }

@@ -13,25 +13,11 @@ import java.text.SimpleDateFormat;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Random;
 
 
-public class GeneradorDato {
-
-    //todo arreglar paquete
-
-    private static Random rand = new Random();
-
-    public static double random() {
-        return rand.nextDouble();
-    }
-
-    static int random(int n) {
-        return rand.nextInt(n);
-    }
+class GeneradorDato {
 
     static void writeXLS(Bitacora bitacora, HashMap<String,String> configuracion, String description) {
-
         DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd-HH_mm");
         Date date = new Date();
 
@@ -57,21 +43,24 @@ public class GeneradorDato {
         for (int rowNum = 0; rowNum < bitacora.size(); ++rowNum) {
             int touristaID = bitacora.obtenerTourista(rowNum);
             int dia = bitacora.obtenerDia(rowNum);
+
             double presupuesto = bitacora.obtenerPresupuesto(rowNum);
             double satisfaccion = bitacora.obtenerSatisfaccion(rowNum);
-            Provincia provincia = bitacora.obtenerProvidencia(rowNum);
-            boolean[] atractivos = bitacora.obtenerAtractivos(rowNum);
+            int provincia = bitacora.obtenerProvidencia(rowNum);
+            boolean[] preferencias = bitacora.obtenerAtractivos(rowNum);
+            boolean activo = bitacora.obtenerActivo(rowNum);
 
             Row rowResult = resultSheet.createRow(rowNum);
             rowResult.createCell(0).setCellValue(touristaID);
-            rowResult.createCell(1).setCellValue(atractivos[0]);
-            rowResult.createCell(2).setCellValue(atractivos[1]);
-            rowResult.createCell(3).setCellValue(atractivos[2]);
+            rowResult.createCell(1).setCellValue(preferencias[0]);
+            rowResult.createCell(2).setCellValue(preferencias[1]);
+            rowResult.createCell(3).setCellValue(preferencias[2]);
 
             rowResult.createCell(4).setCellValue(dia);
             rowResult.createCell(5).setCellValue(presupuesto);
             rowResult.createCell(6).setCellValue(satisfaccion);
-            rowResult.createCell(7).setCellValue(provincia.toString());
+            rowResult.createCell(7).setCellValue(provincia);
+            rowResult.createCell(8).setCellValue(activo);
         }
 
         try {

@@ -1,35 +1,40 @@
 package SelectTur;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Random;
 
-import static SelectTur.MapaEspana.NUMPROVINCIAS;
+import static SelectTur.Main.NUMERO_PREFERENCIAS;
+import static SelectTur.ProvinciaFactory.NUMERO_PROVINCIAS;
 
 public class Turista {
-
-    public final static int QUEDARSE = 0;
-    public final static int MOVERSE = 1;
-    public final static int SALIR = 2;
     private static int userID = 0;
 
     private int id;
-    private int estado;
+    private boolean activo;
     private double presupuesto;
-    private boolean[] atractivos;
+    private boolean[] preferencias;
     private int ubicacion;
-    private double satisfaccion; //todo: ???
+    private double satisfaccion; 
     private Bitacora bitacora;
+    private boolean[] provFactibles;
+    private int[] estadias;
 
-    private Provincia provincia;
-    private MapaEspana espana; //todo: eliminar? donde es usado?
-
-    public Turista(double presupuesto, boolean[] atractivos, int ubicacion) {
-        this.estado = QUEDARSE;
+    Turista(double presupuesto, boolean[] preferencias, int ubicacion) {
+        this.activo = true;
         this.presupuesto = presupuesto;
-        this.satisfaccion = 0; //todo calcular satisfaccion
-        this.atractivos = atractivos;
+        this.satisfaccion = 0;
+        this.preferencias = preferencias;
         this.ubicacion = ubicacion;
         this.id = ++userID;
         this.bitacora = new Bitacora();
+
+        provFactibles = new boolean[NUMERO_PROVINCIAS];
+        estadias = new int[NUMERO_PROVINCIAS];
+
+        for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
+            provFactibles[i] = true;
+            estadias[i] = 0;
+        }
     }
 
     @Override
@@ -37,113 +42,126 @@ public class Turista {
         return id;
     }
 
-    public void mover(Provincia provincia) {
-        this.provincia = provincia;
-    }
-
-
-    public boolean[] filtroPresupuesto() {
-        boolean[] posibilidades = new boolean[NUMPROVINCIAS];
-        for (int i = 0; i < NUMPROVINCIAS; ++i) {
-            posibilidades[i] = presupuesto > (espana.getCostoTransporte(this.provincia.getCodigo(), i) + provincia.getCostoEstadia());
+    private void filtroProvPorPresupuesto() {
+        for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
+            if (presupuesto < (ProvinciaFactory.getCostoTransporte(this.ubicacion, i) + ProvinciaFactory.getCostoEstadia(i))) {
+                provFactibles[i] = false;
+            }
         }
-        return posibilidades;
     }
 
-    public boolean debeSalir() {
-        boolean[] posibilidades = filtroPresupuesto();
-        for (int i = 0; i < NUMPROVINCIAS; ++i) {
-            if (posibilidades[i]) {
-                return false;
+    private void filtroProvPorEstadia() {
+        for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
+            if (estadias[i] == ProvinciaFactory.getMaxEstadia(i)) {
+                provFactibles[i] = false;
+            }
+        }
+    }
+
+    private void filtrar() {
+        filtroProvPorPresupuesto();
+        filtroProvPorEstadia();
+    }
+
+    private void debeSalir() {
+        for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
+            if (provFactibles[i]) {
+                this.activo = true;
             }
         }
 
-            //todo: sacar agente
-        this.estado = SALIR;
-        return true;
+        this.activo = false;
     }
 
     private double compararPreferencias(int codigoProvincia) {
-        boolean[] posibilidades = filtroPresupuesto();
-        double sumaPreferencias = 0;
+        double sumaPreferencias = 0.0;
 
-        if (posibilidades[codigoProvincia]) {
-            boolean[] pAtractivos = espana.getProvincia(codigoProvincia).getAtractivos();
-            for (int g = 0; g < Main.PROBABILIDADES_PREFERENCIAS.length - 1; ++g) {
-                if (atractivos[g] == pAtractivos[g]) {
-                    sumaPreferencias += 1.0/3.0;
-                }
+        boolean[] provPreferencia = ProvinciaFactory.getPreferencias(codigoProvincia);
+
+        for (int i = 0; i < NUMERO_PREFERENCIAS; ++i) {
+            if (preferencias[i] == provPreferencia[i]) {
+                sumaPreferencias += 1.0 / NUMERO_PREFERENCIAS;
             }
         }
-        return sumaPreferencias;
+
+        return sumaPreferencias; //min [0, 1]
     }
 
-    public double calcularSatisfaccion(int codigo) {
-        double k = 0;
+    private double[] calcularSatisfacciones() {
+        double[] satisfacciones = new double[NUMERO_PROVINCIAS];
 
-        int codigoP = provincia.getCodigo();
-        double satisfaccion = k * compararPreferencias(codigoP); //todo:falta lo demas;
+        for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
+            if (provFactibles[i]) {
+                satisfacciones[i] = compararPreferencias(i);
+            }
+            else {
+                satisfacciones[i] = -1.0;
+            }
 
-        return satisfaccion;
-    }
-
-    public double[] calcularSatisfacciones() {
-        double[] satisfacciones = new double[NUMPROVINCIAS];
-
-        for (int i = 0; i < NUMPROVINCIAS; ++i) {
-             satisfacciones[i] = calcularSatisfaccion(i);
-         }
-         return satisfacciones;
+        }
+        return satisfacciones;
     }
 
 
+    private void registrarEstadia() {
+       presupuesto -= ProvinciaFactory.getCostoEstadia(ubicacion);
+        ++estadias[ubicacion];
+    }
 
-    public int obtenerProximaProvincia() {
-        int nprov = 0;
-        int random = 0;
-        int provinciaMax = ubicacion;
+    private void pagarCostoTransporte(int origen, int destino) {
+        presupuesto -= ProvinciaFactory.getCostoTransporte(origen, destino);
 
-        double [][] sMax = new double[NUMPROVINCIAS][2];
+    }
+
+    private int obtenerProximaProvincia() {
+
+        satisfaccion = compararPreferencias(ubicacion);
         double[] satisfacciones = calcularSatisfacciones();
+        double sMax = 0;
+        ArrayList<Integer> provinciasMax = new ArrayList<Integer>();
 
-        for (int i = 0; i < NUMPROVINCIAS; ++i) {
-            if (satisfaccion < satisfacciones[i]) {
-                sMax [nprov][0] = i;
-                sMax [nprov][1] = satisfacciones[i];
-                nprov++;
+        for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
+            sMax = satisfaccion < satisfacciones[i]? satisfacciones[i] : sMax;
+        }
+
+        for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
+            if (sMax == satisfacciones[i])  {
+                provinciasMax.add(i);
             }
         }
-        if (nprov == 1) {
-            provinciaMax = (int) sMax[0][0];
-        }
-        else if (nprov > 1) {
-            random = (int) (Math.random() * nprov);
-            provinciaMax = (int) sMax[random][0];
-        }
-        return provinciaMax;
+
+        Random random = new Random();
+        return provinciasMax.size() > 0 ? provinciasMax.get(random.nextInt(provinciasMax.size())) : ubicacion;
     }
 
 
-    public void proximoPaso() {
-        int codigoP = obtenerProximaProvincia();
-        this.ubicacion = codigoP;
-        //todo: mucho que hacer
+    void proximoPaso() {
+        registrarEstadia();
 
+        filtrar();
+        debeSalir();
+
+        int futuraUbicacion = obtenerProximaProvincia();
+        pagarCostoTransporte(ubicacion, futuraUbicacion);
+
+       ubicacion = futuraUbicacion;
     }
 
-    public void registrarBitacora(int dia) {
-        bitacora.agregar(hashCode(), dia, presupuesto, satisfaccion, atractivos, provincia);
+    void registrarBitacora(int dia) {
+        bitacora.agregar(hashCode(), dia, presupuesto, satisfaccion, preferencias, ubicacion, activo);
     }
 
-    public Bitacora obtenerBitacora() {
+    Bitacora obtenerBitacora() {
         return bitacora;
     }
 
-    public int getEstado() {
-        return estado;
+    boolean estaActivo() {
+        return activo;
     }
 
-    public Provincia getProvincia() {
-        return this.provincia;
+    public String toString() {
+       String text = "";
+       text += id;
+       return text;
     }
 }

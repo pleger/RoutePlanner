@@ -2,36 +2,33 @@ package SelectTur;
 
 public class Provincia {
 
-    private double aglomeración;
     private int codigo;
     private int maxEstadia;
     private double costoEstadia;
     private String nombre;
     private int comunidad;
-    private boolean[] atractivos = new boolean[Main.PROBABILIDADES_PREFERENCIAS.length];
+    private boolean[] preferencias = new boolean[Main.PROBABILIDADES_PREFERENCIAS.length];
 
-    public Provincia(int codProvincia, int comunidad, int estadia, boolean[] atractivos, double costoEstadia){
+    Provincia(int codProvincia, int comunidad, int estadia, boolean[] preferencias, double costoEstadia){
         this.codigo = codProvincia;
         this.comunidad = comunidad;
         this.maxEstadia = estadia;
-        this.atractivos = atractivos;
+        this.preferencias = preferencias;
         this.costoEstadia = costoEstadia;
         this.nombre = ProvinciaFactory.getNombre(codProvincia);
     }
 
-    public double getCostoEstadia() {
+    double getCostoEstadia() {
         return costoEstadia;
     }
 
     public int getCodigo() {
         return codigo;
     }
-    public double getAglomeracion() { return this.aglomeración; }
-    public int getEstadia() { return this.maxEstadia; }
-    public String getNombre() { return this.nombre; }
+    int getEstadia() { return this.maxEstadia; }
+    private String getNombre() { return this.nombre; }
     public int getComunidad() { return this.comunidad; }
-    public boolean[] getAtractivos() { return this.atractivos; }
-
+    boolean[] getPreferencias() { return this.preferencias; }
 
     @Override
     public String toString() {

@@ -16,9 +16,9 @@ public class TuristaFactory {
         int t = 0;
         int a = 0;
         int codigoInicial = (int) UBICACION[t][0];
-        atractivos[0] = PROBABILIDADES_PREFERENCIAS[a][0] == 1;
-        atractivos[1] = PROBABILIDADES_PREFERENCIAS[a][1] == 1;
-        atractivos[2] = PROBABILIDADES_PREFERENCIAS[a][2] == 1;
+        atractivos[0] = PROBABILIDADES_PREFERENCIAS[0][a] == 1;
+        atractivos[1] = PROBABILIDADES_PREFERENCIAS[1][a] == 1;
+        atractivos[2] = PROBABILIDADES_PREFERENCIAS[2][a] == 1;
 
         for (int i = 1; i <= NUMERO_AGENTES; ++i) {
                  double k = 1.0*i/ NUMERO_AGENTES;
@@ -27,11 +27,12 @@ public class TuristaFactory {
                      t++;
                      codigoInicial = (int) UBICACION[t][0];
                  }
-                 if ( k >= PROBABILIDADES_PREFERENCIAS[t][3]) {
+
+                 if ( k >= PROBABILIDADES_PREFERENCIAS[3][a]) {
                      a++;
-                     atractivos[0] = PROBABILIDADES_PREFERENCIAS[a][0] == 1;
-                     atractivos[1] = PROBABILIDADES_PREFERENCIAS[a][1] == 1;
-                     atractivos[2] = PROBABILIDADES_PREFERENCIAS[a][2] == 1;
+                     atractivos[0] = PROBABILIDADES_PREFERENCIAS[0][a] == 1;
+                     atractivos[1] = PROBABILIDADES_PREFERENCIAS[1][a] == 1;
+                     atractivos[2] = PROBABILIDADES_PREFERENCIAS[2][a] == 1;
                  }
 
                  turistas.add(new Turista(Utils.getPresupuesto(), atractivos, codigoInicial));

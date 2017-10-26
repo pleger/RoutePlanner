@@ -1,5 +1,9 @@
 package SelectTur;
 
+import java.util.Arrays;
+
+import static SelectTur.MapaEspana.NUMPROVINCIAS;
+
 public class Turista {
 
     public final static int QUEDARSE = 0;
@@ -39,8 +43,8 @@ public class Turista {
 
 
     public boolean[] filtroPresupuesto() {
-        boolean[] posibilidades = new boolean[MapaEspana.NUMPROVINCIAS];
-        for (int i = 0; i < MapaEspana.NUMPROVINCIAS; ++i) {
+        boolean[] posibilidades = new boolean[NUMPROVINCIAS];
+        for (int i = 0; i < NUMPROVINCIAS; ++i) {
             posibilidades[i] = presupuesto > (espana.getCostoTransporte(this.provincia.getCodigo(), i) + provincia.getCostoEstadia());
         }
         return posibilidades;
@@ -48,7 +52,7 @@ public class Turista {
 
     public boolean debeSalir() {
         boolean[] posibilidades = filtroPresupuesto();
-        for (int i = 0; i < MapaEspana.NUMPROVINCIAS; ++i) {
+        for (int i = 0; i < NUMPROVINCIAS; ++i) {
             if (posibilidades[i]) {
                 return false;
             }
@@ -63,16 +67,11 @@ public class Turista {
         boolean[] posibilidades = filtroPresupuesto();
         double sumaPreferencias = 0;
 
-        int contar = 0;
-        for (boolean atractivo : atractivos) {
-            contar += atractivo ? 1 : 0;
-        }
-
         if (posibilidades[codigoProvincia]) {
             boolean[] pAtractivos = espana.getProvincia(codigoProvincia).getAtractivos();
-            for (int g = 0; g < Main.PROBABILIDADES_PREFERENCIAS.length; ++g) {
+            for (int g = 0; g < Main.PROBABILIDADES_PREFERENCIAS.length - 1; ++g) {
                 if (atractivos[g] == pAtractivos[g]) {
-                    sumaPreferencias += 1.0 / contar;
+                    sumaPreferencias += 1.0/3.0;
                 }
             }
         }
@@ -89,9 +88,9 @@ public class Turista {
     }
 
     public double[] calcularSatisfacciones() {
-        double[] satisfacciones = new double[MapaEspana.NUMPROVINCIAS];
+        double[] satisfacciones = new double[NUMPROVINCIAS];
 
-        for (int i = 0; i < MapaEspana.NUMPROVINCIAS; ++i) {
+        for (int i = 0; i < NUMPROVINCIAS; ++i) {
              satisfacciones[i] = calcularSatisfaccion(i);
          }
          return satisfacciones;
@@ -100,20 +99,30 @@ public class Turista {
 
 
     public int obtenerProximaProvincia() {
-        double k = 0;
-        int provinciaMax = 0;
-        double sMax = 0;
+        int nprov = 0;
+        int random = 0;
+        int provinciaMax = ubicacion;
 
+        double [][] sMax = new double[NUMPROVINCIAS][2];
         double[] satisfacciones = calcularSatisfacciones();
 
-        for (int i = 0; i < MapaEspana.NUMPROVINCIAS; ++i) {
-            if (sMax < satisfacciones[i]) {
-                sMax = satisfacciones[i];
-                provinciaMax = i;
+        for (int i = 0; i < NUMPROVINCIAS; ++i) {
+            if (satisfaccion < satisfacciones[i]) {
+                sMax [nprov][0] = i;
+                sMax [nprov][1] = satisfacciones[i];
+                nprov++;
             }
+        }
+        if (nprov == 1) {
+            provinciaMax = (int) sMax[0][0];
+        }
+        else if (nprov > 1) {
+            random = (int) (Math.random() * nprov);
+            provinciaMax = (int) sMax[random][0];
         }
         return provinciaMax;
     }
+
 
     public void proximoPaso() {
         int codigoP = obtenerProximaProvincia();

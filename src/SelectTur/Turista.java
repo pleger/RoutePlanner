@@ -107,7 +107,7 @@ public class Turista {
 
     private void registrarEstadia() {
        presupuesto -= ProvinciaFactory.getCostoEstadia(ubicacion);
-        ++estadias[ubicacion];
+       ++estadias[ubicacion];
     }
 
     private void pagarCostoTransporte(int origen, int destino) {
@@ -148,7 +148,8 @@ public class Turista {
         int futuraUbicacion = obtenerProximaProvincia();
         pagarCostoTransporte(ubicacion, futuraUbicacion);
 
-       ubicacion = futuraUbicacion;
+        ubicacion = futuraUbicacion;
+        satisfaccion = compararPreferencias(ubicacion);
     }
 
     void registrarBitacora(int dia) {

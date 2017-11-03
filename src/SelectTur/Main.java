@@ -3,14 +3,14 @@ package SelectTur;
 public class Main {
 
     static final String DESCRIPCION = "SIMULACION";
-    static final int NUMERO_AGENTES = 3;  //18000
-    static final int PERIODOS = 30;
+    static final int NUMERO_AGENTES = 1;  //18000
+    static final int PERIODOS = 25;
 
     static final double[][] UBICACIONES_INICIALES = new double[][]{
             {ProvinciaFactory.ALAVA, ProvinciaFactory.BARCELONA, ProvinciaFactory.ACORUNA,
                     ProvinciaFactory.MADRID, ProvinciaFactory.SEVILLA, ProvinciaFactory.VALENCIA},
-            {0.44, 54.4, 59.23,
-                    83.53, 91.83, 1}};
+            {0.0044, 0.544, 0.5923,
+                    0.8353, 0.9183, 1}};
 
     static final double[][] PROBABILIDADES_PREFERENCIAS = new double[][]{
             {1, 1, 1, 1, 0, 0, 0, 0},

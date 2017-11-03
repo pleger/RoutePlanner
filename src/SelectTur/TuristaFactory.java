@@ -5,6 +5,8 @@ import org.apache.commons.math3.distribution.NormalDistribution;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static SelectTur.Main.*;
 
@@ -29,7 +31,7 @@ class TuristaFactory {
 
             double avanceAgentes = 1.0 * i / NUMERO_AGENTES;
 
-            if (avanceAgentes >= UBICACIONES_INICIALES[contadorUbicacion][1]) {
+            if (avanceAgentes >= UBICACIONES_INICIALES[1][contadorUbicacion]) {
                 ++contadorUbicacion;
             }
 
@@ -37,17 +39,26 @@ class TuristaFactory {
                 ++contadorPreferencias;
             }
 
-            ubicaciones[i] = (int) UBICACIONES_INICIALES[contadorUbicacion][0];
+            ubicaciones[i] = (int) UBICACIONES_INICIALES[0][contadorUbicacion];
 
             preferencias[i][0] = PROBABILIDADES_PREFERENCIAS[0][contadorPreferencias] == 1;
             preferencias[i][1] = PROBABILIDADES_PREFERENCIAS[1][contadorPreferencias] == 1;
             preferencias[i][2] = PROBABILIDADES_PREFERENCIAS[2][contadorPreferencias] == 1;
         }
 
-        Collections.shuffle(Arrays.asList(ubicaciones));
+        //ArrayList<Integer> ubicacionesList = new ArrayList<Integer>(Arrays.asList(ubicaciones));
+
+        /*
+        List<Integer> list = new ArrayList<Integer>();
+        Collections.addAll(list, Arrays.stream(ints).boxed().toArray(Integer[]::new));
+        */
+
+        List<Integer> ubicacionesList =  Arrays.stream(ubicaciones).boxed().collect(Collectors.toList());
+        Collections.shuffle(ubicacionesList);
 
         for (int i = 0; i < NUMERO_AGENTES; ++i) {
-            turistas.add(new Turista(getPresupuesto(), preferencias[i], ubicaciones[i]));
+            int ub = (Integer) ubicacionesList.get(i);
+            turistas.add(new Turista(getPresupuesto(), preferencias[i], ub));
         }
 
         return turistas;

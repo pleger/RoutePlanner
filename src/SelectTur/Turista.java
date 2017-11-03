@@ -132,30 +132,16 @@ public class Turista {
             }
         }
 
-        int numprov = provinciasMax.size();
-
-        if (numprov>1) {
-            double[] costos = new double [numprov];
-            int min = provinciasMax.get(0);
-            for (int i = 0; i < numprov; ++i) {
-                costos [i] = ProvinciaFactory.getCostoTransporte(ubicacion, i) + ProvinciaFactory.getCostoEstadia(i);
-                if (i > 0 && costos [i] < costos [i-1]) {
-                    min = provinciasMax.get(i);
-                }
-            }
-        }
-
-        else {
-            sMax = provinciasMax.get(0);
-        }
-
-       // Random random = new Random();
-       // return  sMax == satisfaccion && provFactibles[ubicacion]?  //todo: parche!!!
-       //         ubicacion :
-       //         provinciasMax.size() > 0 ? provinciasMax.get(random.nextInt(provinciasMax.size())) : ubicacion;
+        Random random = new Random();
+        return  sMax == satisfaccion && provFactibles[ubicacion]?  //todo: parche!!!
+               ubicacion :
+               provinciasMax.size() > 0 ? provinciasMax.get(random.nextInt(provinciasMax.size())) : ubicacion;
     }
 
     void proximoPaso() {
+
+        System.out.println(toString());
+
         registrarEstadia();
 
         filtrar();
@@ -167,7 +153,7 @@ public class Turista {
         ubicacion = futuraUbicacion;
         satisfaccion = calcularPreferencias(ubicacion);
 
-        System.out.println(toString());
+
 
     }
 
@@ -203,12 +189,12 @@ public class Turista {
        text += getNombre(ubicacion) + " ";
        text += obtenerEstadia(ubicacion)+ " ";
        text += ProvinciaFactory.getMaxEstadia(ubicacion)+ " ";
-       text += estaActivo()+ " ";
-       for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
+       //text += estaActivo()+ " ";
+       /*for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
            text += getNombre(i) + " ";
            text += obtenerprovFactibles(i)+ " ";
            text += obtenerSatisfacciones(i)+ " ";
-       }
+       }*/
        return text;
     }
 }

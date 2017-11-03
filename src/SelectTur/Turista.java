@@ -132,10 +132,27 @@ public class Turista {
             }
         }
 
-        Random random = new Random();
-        return  sMax == satisfaccion && provFactibles[ubicacion]?  //todo: parche!!!
-                ubicacion :
-                provinciasMax.size() > 0 ? provinciasMax.get(random.nextInt(provinciasMax.size())) : ubicacion;
+        int numprov = provinciasMax.size();
+
+        if (numprov>1) {
+            double[] costos = new double [numprov];
+            int min = provinciasMax.get(0);
+            for (int i = 0; i < numprov; ++i) {
+                costos [i] = ProvinciaFactory.getCostoTransporte(ubicacion, i) + ProvinciaFactory.getCostoEstadia(i);
+                if (i > 0 && costos [i] < costos [i-1]) {
+                    min = provinciasMax.get(i);
+                }
+            }
+        }
+
+        else {
+            sMax = provinciasMax.get(0);
+        }
+
+       // Random random = new Random();
+       // return  sMax == satisfaccion && provFactibles[ubicacion]?  //todo: parche!!!
+       //         ubicacion :
+       //         provinciasMax.size() > 0 ? provinciasMax.get(random.nextInt(provinciasMax.size())) : ubicacion;
     }
 
     void proximoPaso() {
@@ -159,6 +176,14 @@ public class Turista {
         return estadias[codigo];
     }
 
+    private boolean obtenerprovFactibles(int i) {
+        return provFactibles[i];
+    }
+    private double obtenerSatisfacciones (int i) {
+        double [] satisfacciones = calcularSatisfacciones();
+        return satisfacciones[i];
+    }
+
     void registrarBitacora(int dia) {
         bitacora.agregar(hashCode(), dia, presupuesto, satisfaccion, preferencias, ubicacion, activo);
     }
@@ -177,6 +202,13 @@ public class Turista {
        
        text += getNombre(ubicacion) + " ";
        text += obtenerEstadia(ubicacion)+ " ";
+       text += ProvinciaFactory.getMaxEstadia(ubicacion)+ " ";
+       text += estaActivo()+ " ";
+       for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
+           text += getNombre(i) + " ";
+           text += obtenerprovFactibles(i)+ " ";
+           text += obtenerSatisfacciones(i)+ " ";
+       }
        return text;
     }
 }

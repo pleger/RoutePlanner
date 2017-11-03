@@ -1,7 +1,9 @@
 package SelectTur;
 
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 import static SelectTur.Main.NUMERO_PREFERENCIAS;
 import static SelectTur.ProvinciaFactory.NUMERO_PROVINCIAS;
@@ -117,26 +119,60 @@ public class Turista {
     }
 
     private int obtenerProximaProvincia() {
-
         double[] satisfacciones = calcularSatisfacciones();
-        double sMax = satisfaccion;
+        double sMax =  satisfacciones[ubicacion]; //satisfaccion
         ArrayList<Integer> provinciasMax = new ArrayList<Integer>();
 
         for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
-            sMax = satisfaccion < satisfacciones[i]? satisfacciones[i] : sMax;
+            sMax = satisfaccion < satisfacciones[i] ? satisfacciones[i] : sMax;
         }
 
         for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
-            if (sMax == satisfacciones[i])  {
+            if (sMax == satisfacciones[i]) {
                 provinciasMax.add(i);
             }
         }
 
-        Random random = new Random();
-        return  sMax == satisfaccion && provFactibles[ubicacion]?  //todo: parche!!!
-               ubicacion :
-               provinciasMax.size() > 0 ? provinciasMax.get(random.nextInt(provinciasMax.size())) : ubicacion;
+        Collections.shuffle(provinciasMax);
+        Integer[] arrayProvinciaMax = provinciasMax.toArray(new Integer[provinciasMax.size()]);
+
+
+        Arrays.sort(arrayProvinciaMax, new Comparator<Integer>() {
+            public int compare(Integer o1, Integer o2) {
+                double c1 = ProvinciaFactory.getCostoEstadia(o1) + ProvinciaFactory.getCostoTransporte(ubicacion, o1);
+                double c2 = ProvinciaFactory.getCostoEstadia(o2) + ProvinciaFactory.getCostoTransporte(ubicacion, o2);
+
+                return (int) (c1 - c2);
+            }
+        });
+
+        return arrayProvinciaMax[0];
     }
+
+            /*
+        int numProv = provinciasMax.size();
+
+        if (numProv > 1) {
+            double[] costos = new double [numProv];
+            int min = provinciasMax.get(0);
+            for (int i = 0; i < numProv; ++i) {
+                costos [i] = ProvinciaFactory.getCostoTransporte(ubicacion, i) + ProvinciaFactory.getCostoEstadia(i);
+                if (i > 0 && costos [i] < costos [i-1]) {
+                    min = provinciasMax.get(i);
+                }
+            }
+        }
+
+        else {
+            sMax = provinciasMax.get(0);
+        }
+
+       // Random random = new Random();
+       // return  sMax == satisfaccion && provFactibles[ubicacion]?  //todo: parche!!!
+       //         ubicacion :
+       //         provinciasMax.size() > 0 ? provinciasMax.get(random.nextInt(provinciasMax.size())) : ubicacion;
+       */
+
 
     void proximoPaso() {
 
@@ -162,7 +198,7 @@ public class Turista {
         return estadias[codigo];
     }
 
-    private boolean obtenerprovFactibles(int i) {
+    private boolean obtenerProvFactibles(int i) {
         return provFactibles[i];
     }
     private double obtenerSatisfacciones (int i) {
@@ -192,7 +228,7 @@ public class Turista {
        //text += estaActivo()+ " ";
        /*for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
            text += getNombre(i) + " ";
-           text += obtenerprovFactibles(i)+ " ";
+           text += obtenerProvFactibles(i)+ " ";
            text += obtenerSatisfacciones(i)+ " ";
        }*/
        return text;

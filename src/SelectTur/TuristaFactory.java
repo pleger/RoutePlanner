@@ -57,7 +57,7 @@ class TuristaFactory {
         Collections.shuffle(ubicacionesList);
 
         for (int i = 0; i < NUMERO_AGENTES; ++i) {
-            int ub = (Integer) ubicacionesList.get(i);
+            int ub = ubicacionesList.get(i);
             turistas.add(new Turista(getPresupuesto(), preferencias[i], ub));
         }
 

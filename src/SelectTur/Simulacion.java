@@ -39,6 +39,10 @@ class Simulacion {
     void ejecutar() {
         registrarRuta(0);
 
+        for (Turista turista : turistas) {
+            System.out.println(turista);
+        }
+
         for (int dia = 1; dia <= periodos; ++dia) {
             proximoPaso();
             registrarRuta(dia);
@@ -68,7 +72,9 @@ class Simulacion {
     }
 
     private void proximoPaso() {
-        for (Turista turista : turistas) {
+
+
+            for (Turista turista : turistas) {
             if (turista.estaActivo()) {
                 turista.proximoPaso();
             }

@@ -102,7 +102,6 @@ public class Turista {
             else {
                 satisfacciones[i] = -1.0;
             }
-
         }
         return satisfacciones;
     }
@@ -124,7 +123,7 @@ public class Turista {
         ArrayList<Integer> provinciasMax = new ArrayList<Integer>();
 
         for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
-            sMax = satisfaccion < satisfacciones[i] ? satisfacciones[i] : sMax;
+            sMax = sMax < satisfacciones[i] ? satisfacciones[i] : sMax;
         }
 
         for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
@@ -138,14 +137,18 @@ public class Turista {
 
 
         Arrays.sort(arrayProvinciaMax, new Comparator<Integer>() {
-            public int compare(Integer o1, Integer o2) {
-                double c1 = ProvinciaFactory.getCostoEstadia(o1) + ProvinciaFactory.getCostoTransporte(ubicacion, o1);
-                double c2 = ProvinciaFactory.getCostoEstadia(o2) + ProvinciaFactory.getCostoTransporte(ubicacion, o2);
+            public int compare(Integer ubicacion1, Integer ubicacion2) {
+                double c1 = ProvinciaFactory.getCostoEstadia(ubicacion1) + ProvinciaFactory.getCostoTransporte(ubicacion, ubicacion1);
+                double c2 = ProvinciaFactory.getCostoEstadia(ubicacion2) + ProvinciaFactory.getCostoTransporte(ubicacion, ubicacion2);
 
                 return (int) (c1 - c2);
             }
         });
-
+        System.out.print("Imprimiendo orden de provincias (" + id +  "): ");
+        for (int i = 0; i < arrayProvinciaMax.length; i++) {
+            System.out.print(getNombre(arrayProvinciaMax[i]) + ", ");
+        }
+        System.out.println();
         return arrayProvinciaMax[0];
     }
 
@@ -176,7 +179,7 @@ public class Turista {
 
     void proximoPaso() {
 
-        System.out.println(toString());
+        //System.out.println(toString());
 
         registrarEstadia();
 

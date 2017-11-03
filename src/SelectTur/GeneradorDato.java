@@ -44,10 +44,10 @@ class GeneradorDato {
         rowResultHeader.createCell(2).setCellValue("Preferencia 2");
         rowResultHeader.createCell(3).setCellValue("Preferencia 3");
         rowResultHeader.createCell(4).setCellValue("Periodo");
-        rowResultHeader.createCell(5).setCellValue("Satisfaccion");
         rowResultHeader.createCell(5).setCellValue("Presupuesto");
-        rowResultHeader.createCell(6).setCellValue("Provincia");
-        rowResultHeader.createCell(7).setCellValue("Activo");
+        rowResultHeader.createCell(6).setCellValue("Satisfaccion");
+        rowResultHeader.createCell(7).setCellValue("Provincia");
+        rowResultHeader.createCell(8).setCellValue("Activo");
 
         //for info of experiments
         for (int rowNum = 0; rowNum < bitacora.size(); ++rowNum) {

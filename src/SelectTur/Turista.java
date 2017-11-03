@@ -5,6 +5,7 @@ import java.util.Random;
 
 import static SelectTur.Main.NUMERO_PREFERENCIAS;
 import static SelectTur.ProvinciaFactory.NUMERO_PROVINCIAS;
+import static SelectTur.ProvinciaFactory.getNombre;
 
 public class Turista {
     private static int userID = 0;
@@ -35,7 +36,7 @@ public class Turista {
             estadias[i] = 0;
         }
 
-        this.satisfaccion = compararPreferencias(ubicacion);
+        this.satisfaccion = calcularPreferencias(ubicacion);
     }
 
     @Override
@@ -75,7 +76,7 @@ public class Turista {
         this.activo = false;
     }
 
-    private double compararPreferencias(int codigoProvincia) {
+    private double calcularPreferencias(int codigoProvincia) {
         double sumaPreferencias = 0.0;
 
         boolean[] provPreferencia = ProvinciaFactory.getPreferencias(codigoProvincia);
@@ -94,7 +95,7 @@ public class Turista {
 
         for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
             if (provFactibles[i]) {
-                satisfacciones[i] = compararPreferencias(i);
+                satisfacciones[i] = calcularPreferencias(i);
             }
             else {
                 satisfacciones[i] = -1.0;
@@ -117,7 +118,6 @@ public class Turista {
 
     private int obtenerProximaProvincia() {
 
-        satisfaccion = compararPreferencias(ubicacion);
         double[] satisfacciones = calcularSatisfacciones();
         double sMax = satisfaccion;
         ArrayList<Integer> provinciasMax = new ArrayList<Integer>();
@@ -138,7 +138,6 @@ public class Turista {
                 provinciasMax.size() > 0 ? provinciasMax.get(random.nextInt(provinciasMax.size())) : ubicacion;
     }
 
-
     void proximoPaso() {
         registrarEstadia();
 
@@ -149,7 +148,15 @@ public class Turista {
         pagarCostoTransporte(ubicacion, futuraUbicacion);
 
         ubicacion = futuraUbicacion;
-        satisfaccion = compararPreferencias(ubicacion);
+        satisfaccion = calcularPreferencias(ubicacion);
+
+        System.out.println(toString());
+
+    }
+
+
+    private int obtenerEstadia(int codigo) {
+        return estadias[codigo];
     }
 
     void registrarBitacora(int dia) {
@@ -166,7 +173,10 @@ public class Turista {
 
     public String toString() {
        String text = "";
-       text += id;
+       text += id + " ";
+       
+       text += getNombre(ubicacion) + " ";
+       text += obtenerEstadia(ubicacion)+ " ";
        return text;
     }
 }

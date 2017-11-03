@@ -10,10 +10,10 @@ import static SelectTur.Main.*;
 
 class TuristaFactory {
 
-    private static final double mean = 173.9222;
-    private static final double sd = 90.75885;
+    private static final double PROMEDIO_PRESUPUESTO = 173.9222;
+    private static final double DESVIACION_PRESUPUESTO = 90.75885;
 
-    private static NormalDistribution ndp = new NormalDistribution(mean, sd);
+    private static NormalDistribution ndp = new NormalDistribution(PROMEDIO_PRESUPUESTO, DESVIACION_PRESUPUESTO);
 
 
     static ArrayList<Turista> crearTuristas() {
@@ -55,13 +55,17 @@ class TuristaFactory {
 
     private static double getPresupuesto() {
 
-        double presupuesto = ndp.sample() * PERIODOS;
+        double presupuesto = ndp.sample();
+        double maximo = PROMEDIO_PRESUPUESTO + DESVIACION_PRESUPUESTO;
+        double minimo = PROMEDIO_PRESUPUESTO - DESVIACION_PRESUPUESTO;
 
-        if (presupuesto > (mean + sd) * PERIODOS) {presupuesto = (mean + sd) * PERIODOS;}
 
-        else if (presupuesto < (mean - sd) * PERIODOS) {presupuesto = (mean - sd) * PERIODOS;}
+        presupuesto = presupuesto > maximo ? maximo :
+                presupuesto < minimo ? minimo :
+                        presupuesto;
 
-        return presupuesto;
+
+        return presupuesto * PERIODOS;
     }
 
 }

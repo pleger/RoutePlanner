@@ -21,12 +21,12 @@ class TuristaFactory {
     static ArrayList<Turista> crearTuristas() {
         ArrayList<Turista> turistas = new ArrayList<Turista>();
 
-        int[] ubicaciones = new int[NUMERO_AGENTES];
+   //     int[] ubicaciones = new int[NUMERO_AGENTES];
         boolean[][] preferencias = new boolean[NUMERO_AGENTES][NUMERO_PREFERENCIAS];
 
-        int contadorUbicacion = 0;
+ //       int contadorUbicacion = 0;
         int contadorPreferencias = 0;
-
+/*
         for (int i = 0; i < NUMERO_AGENTES; ++i) {
 
             double avanceAgentes = 1.0 * i / NUMERO_AGENTES;
@@ -47,12 +47,12 @@ class TuristaFactory {
         }
 
         //ArrayList<Integer> ubicacionesList = new ArrayList<Integer>(Arrays.asList(ubicaciones));
-
+/*
         /*
         List<Integer> list = new ArrayList<Integer>();
         Collections.addAll(list, Arrays.stream(ints).boxed().toArray(Integer[]::new));
         */
-
+/*
         List<Integer> ubicacionesList =  Arrays.stream(ubicaciones).boxed().collect(Collectors.toList());
         Collections.shuffle(ubicacionesList);
 
@@ -61,19 +61,43 @@ class TuristaFactory {
             turistas.add(new Turista(getPresupuesto(), preferencias[i], ub));
         }
 
+
+  */    int ubicacion = 0;
+
+        for (int i = 0; i < NUMERO_AGENTES; ++i) {
+
+            double avanceAgentes = 1.0 * i / NUMERO_AGENTES;
+
+            if (avanceAgentes >= 0.5) {
+                ubicacion = 9;
+            }
+
+            if (contadorPreferencias > 7) {
+                contadorPreferencias = 0;
+            }
+
+            preferencias[i][0] = PROBABILIDADES_PREFERENCIAS[0][contadorPreferencias] == 1;
+            preferencias[i][1] = PROBABILIDADES_PREFERENCIAS[1][contadorPreferencias] == 1;
+            preferencias[i][2] = PROBABILIDADES_PREFERENCIAS[2][contadorPreferencias] == 1;
+
+            turistas.add(new Turista(getPresupuesto(), preferencias[i], ubicacion));
+            ++contadorPreferencias;
+        }
+
         return turistas;
     }
 
     private static double getPresupuesto() {
 
-        double presupuesto = ndp.sample();
+        double presupuesto = PROMEDIO_PRESUPUESTO;
+        /*double presupuesto = ndp.sample();
         double maximo = PROMEDIO_PRESUPUESTO + DESVIACION_PRESUPUESTO;
         double minimo = PROMEDIO_PRESUPUESTO - DESVIACION_PRESUPUESTO;
 
 
         presupuesto = presupuesto > maximo ? maximo :
                 presupuesto < minimo ? minimo :
-                        presupuesto;
+                        presupuesto;*/
 
 
         return presupuesto * PERIODOS;

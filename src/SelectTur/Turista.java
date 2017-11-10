@@ -209,8 +209,10 @@ public class Turista {
         return satisfacciones[i];
     }
 
+
     void registrarBitacora(int dia) {
-        bitacora.agregar(hashCode(), dia, presupuesto, satisfaccion, preferencias, ubicacion, activo);
+        double costo = ProvinciaFactory.getCostoEstadia(ubicacion) + 
+        bitacora.agregar(hashCode(), dia, presupuesto, satisfaccion, preferencias, ubicacion, activo, costo);
     }
 
     Bitacora obtenerBitacora() {

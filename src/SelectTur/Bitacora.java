@@ -21,10 +21,13 @@ class Bitacora {
             int provincia = bit.obtenerProvincia(i);
             boolean[] atractivos = bit.obtenerAtractivos(i);
             boolean activo = bit.obtenerActivo(i);
+            double costo = bit.obtenerCosto(i);
 
-            agregar(touristaID, dia, presupuesto, satisfaccion, atractivos, provincia, activo);
+            agregar(touristaID, dia, presupuesto, satisfaccion, atractivos, provincia, activo, costo);
         }
     }
+
+
 
 
     int obtenerTourista(int i) {
@@ -50,11 +53,15 @@ class Bitacora {
 
     boolean obtenerActivo(int i) { return (Boolean) (records.get(i).get(6)); }
 
+    private double obtenerCosto(int i) {
+        return (Double) (records.get(i)).get(7);
+    }
+
     int size() {
         return records.size();
     }
 
-    void agregar(int touristaID, int dia, double presupuesto, double satisfaccion, boolean[] preferencias, int provincia, boolean activo) {
+    void agregar(int touristaID, int dia, double presupuesto, double satisfaccion, boolean[] preferencias, int provincia, boolean activo, double costo) {
         List<Object> record = new ArrayList<Object>();
 
         record.add(touristaID);
@@ -64,6 +71,7 @@ class Bitacora {
         record.add(satisfaccion);
         record.add(preferencias);
         record.add(activo);
+        record.add(costo);
         
         records.add(record);
     }

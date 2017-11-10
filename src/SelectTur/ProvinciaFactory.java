@@ -47,7 +47,7 @@ class ProvinciaFactory {
         crearProvincias();
         crearCostoTransporte();
     }
-/*
+
     static void crearProvincias() {
         provincias = new Vector<Provincia>();
         provincias.add(new Provincia(MADRID, COMMADRID,1, new boolean[]{CULTURA, false, GASTRONOMIA},40.55));
@@ -76,7 +76,7 @@ class ProvinciaFactory {
 
         NUMERO_PROVINCIAS = provincias.size();
     }
-*/
+/*
 
 
     static void crearProvincias() {
@@ -107,7 +107,7 @@ class ProvinciaFactory {
 
         NUMERO_PROVINCIAS = provincias.size();
     }
-
+*/
     private static Provincia getProvincia(int codigo) {
         return provincias.get(codigo);
     }

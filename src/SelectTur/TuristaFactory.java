@@ -24,7 +24,7 @@ class TuristaFactory {
    //     int[] ubicaciones = new int[NUMERO_AGENTES];
         boolean[][] preferencias = new boolean[NUMERO_AGENTES][NUMERO_PREFERENCIAS];
 
- //       int contadorUbicacion = 0;
+        int contadorUbicacion = 0;
         int contadorPreferencias = 0;
 /*
         for (int i = 0; i < NUMERO_AGENTES; ++i) {
@@ -66,15 +66,20 @@ class TuristaFactory {
 
         for (int i = 0; i < NUMERO_AGENTES; ++i) {
 
-            double avanceAgentes = 1.0 * i / NUMERO_AGENTES;
+            //double avanceAgentes = 1.0 * i / NUMERO_AGENTES;
 
-            if (avanceAgentes >= 0.5) {
-                ubicacion = 9;
-            }
+            //if (avanceAgentes >= 0.5) {
+            //    ubicacion = 9;
+            //}
+
+
 
             if (contadorPreferencias > 7) {
                 contadorPreferencias = 0;
+                contadorUbicacion = 0;
             }
+
+            ubicacion = UBICACIONES_INICIALES[contadorUbicacion];
 
             preferencias[i][0] = PROBABILIDADES_PREFERENCIAS[0][contadorPreferencias] == 1;
             preferencias[i][1] = PROBABILIDADES_PREFERENCIAS[1][contadorPreferencias] == 1;
@@ -82,6 +87,7 @@ class TuristaFactory {
 
             turistas.add(new Turista(getPresupuesto(), preferencias[i], ubicacion));
             ++contadorPreferencias;
+            ++contadorUbicacion;
         }
 
         return turistas;

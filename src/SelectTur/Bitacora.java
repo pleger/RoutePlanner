@@ -53,7 +53,7 @@ class Bitacora {
 
     boolean obtenerActivo(int i) { return (Boolean) (records.get(i).get(6)); }
 
-    private double obtenerCosto(int i) {
+    double obtenerCosto(int i) {
         return (Double) (records.get(i)).get(7);
     }
 

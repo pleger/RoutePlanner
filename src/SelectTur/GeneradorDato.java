@@ -59,6 +59,7 @@ class GeneradorDato {
             int provincia = bitacora.obtenerProvincia(rowNum);
             boolean[] preferencias = bitacora.obtenerAtractivos(rowNum);
             boolean activo = bitacora.obtenerActivo(rowNum);
+            double costo = bitacora.obtenerCosto(rowNum);
 
             Row rowResult = resultSheet.createRow(rowNum + 1);
             rowResult.createCell(0).setCellValue(touristaID);
@@ -71,6 +72,7 @@ class GeneradorDato {
             rowResult.createCell(6).setCellValue(satisfaccion);
             rowResult.createCell(7).setCellValue(ProvinciaFactory.getNombre(provincia));
             rowResult.createCell(8).setCellValue(activo);
+            rowResult.createCell(9).setCellValue(costo);
         }
 
         try {

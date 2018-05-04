@@ -17,6 +17,7 @@ public class Turista {
     private double presupuesto;
     private boolean[] preferencias;
     private int ubicacion;
+    private int ubicacionanterior;
     private double satisfaccion; 
     private Bitacora bitacora;
     private boolean[] provFactibles;
@@ -89,7 +90,7 @@ public class Turista {
             }
         }
 
-        return sumaPreferencias; //min [0, 1]
+        return sumaPreferencias == 1? 2.0/3.0: sumaPreferencias; //min [0, 1]
     }
 
     private double[] calcularSatisfacciones() {
@@ -132,10 +133,36 @@ public class Turista {
             }
         }
 
-        Collections.shuffle(provinciasMax);
-        Integer[] arrayProvinciaMax = provinciasMax.toArray(new Integer[provinciasMax.size()]);
+
+        System.out.println("COMENZANDO MINIMOS    XXXXDXXXXXXXXXXXX");
+
+        if (provinciasMax.size()>1) {
+            double costomin = 1000.0;
+            for (int i = 0; i < provinciasMax.size(); ++i) {
+                if (costomin > ProvinciaFactory.getCostoEstadia(provinciasMax.get(i)) + ProvinciaFactory.getCostoTransporte(ubicacion, provinciasMax.get(i))) {
+                    costomin = ProvinciaFactory.getCostoEstadia(provinciasMax.get(i)) + ProvinciaFactory.getCostoTransporte(ubicacion, provinciasMax.get(i));
+                    System.out.println();
+                    System.out.println(costomin+ " " + ProvinciaFactory.getNombre(provinciasMax.get(i)) +  " " +  satisfacciones[provinciasMax.get(i)]);
+                }
+            }
+
+            System.out.println("FIN MINIMOS    XXXXDXXXXXXXXXXXX");
 
 
+            ArrayList<Integer> provinciasMin = new ArrayList<Integer>();
+            for (int i = 0; i < provinciasMax.size(); ++i) {
+                if (costomin == ProvinciaFactory.getCostoEstadia(provinciasMax.get(i)) + ProvinciaFactory.getCostoTransporte(ubicacion, provinciasMax.get(i))) {
+                    provinciasMin.add(provinciasMax.get(i));
+                }
+            }
+
+
+
+
+            //Collections.shuffle(provinciasMin);
+            //Integer[] arrayProvinciaMin = provinciasMin.toArray(new Integer[provinciasMin.size()]);
+
+/*
         Arrays.sort(arrayProvinciaMax, new Comparator<Integer>() {
             public int compare(Integer ubicacion1, Integer ubicacion2) {
                 double c1 = ProvinciaFactory.getCostoEstadia(ubicacion1) + ProvinciaFactory.getCostoTransporte(ubicacion, ubicacion1);
@@ -148,8 +175,19 @@ public class Turista {
         for (int i = 0; i < arrayProvinciaMax.length; i++) {
             System.out.print(getNombre(arrayProvinciaMax[i]) + ", ");
         }
-        System.out.println();
-        return arrayProvinciaMax[0];
+        System.out.println();*/
+
+            System.out.print("Imprimiendo orden de provincias (" + id +  "): ");
+            for (int i = 0; i < provinciasMax.size(); i++) {
+                System.out.print(getNombre(provinciasMax.get(i)) + ", ");
+            }
+            System.out.println();
+
+            return provinciasMin.get(0);
+        }
+        else {
+            return provinciasMax.get(0);
+        }
     }
 
             /*
@@ -189,6 +227,7 @@ public class Turista {
         int futuraUbicacion = obtenerProximaProvincia();
         pagarCostoTransporte(ubicacion, futuraUbicacion);
 
+        ubicacionanterior = ubicacion;
         ubicacion = futuraUbicacion;
         satisfaccion = calcularPreferencias(ubicacion);
 
@@ -211,7 +250,7 @@ public class Turista {
 
 
     void registrarBitacora(int dia) {
-        double costo = ProvinciaFactory.getCostoEstadia(ubicacion) + 
+        double costo = ProvinciaFactory.getCostoEstadia(ubicacion) + ProvinciaFactory.getCostoTransporte(ubicacionanterior, ubicacion);
         bitacora.agregar(hashCode(), dia, presupuesto, satisfaccion, preferencias, ubicacion, activo, costo);
     }
 
@@ -223,7 +262,7 @@ public class Turista {
         return activo;
     }
 
-    public String toString() {
+   /* public String toString() {
        String text = "";
        text += id + " ";
        
@@ -235,7 +274,7 @@ public class Turista {
            text += getNombre(i) + " ";
            text += obtenerProvFactibles(i)+ " ";
            text += obtenerSatisfacciones(i)+ " ";
-       }*/
+       }
        return text;
-    }
+    }*/
 }

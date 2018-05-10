@@ -1,9 +1,10 @@
 package SelectTur;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
+import javafx.util.Pair;
+
+
+import java.util.*;
+//import javax.util.*;
 
 import static SelectTur.Main.NUMERO_PREFERENCIAS;
 import static SelectTur.ProvinciaFactory.NUMERO_PROVINCIAS;
@@ -24,6 +25,7 @@ public class Turista {
     private int[] estadias;
 
     Turista(double presupuesto, boolean[] preferencias, int ubicacion) {
+
         this.activo = true;
         this.presupuesto = presupuesto;
         this.preferencias = preferencias;
@@ -90,6 +92,7 @@ public class Turista {
             }
         }
 
+        //todo: min[0,1]
         return sumaPreferencias == 1? 2.0/3.0: sumaPreferencias; //min [0, 1]
     }
 
@@ -120,8 +123,9 @@ public class Turista {
 
     private int obtenerProximaProvincia() {
         double[] satisfacciones = calcularSatisfacciones();
-        double sMax =  satisfacciones[ubicacion]; //satisfaccion
+        double sMax = satisfacciones[ubicacion]; //satisfaccion
         ArrayList<Integer> provinciasMax = new ArrayList<Integer>();
+        ArrayList<Pair<Integer, Double>> provinciasCostoMax = new ArrayList<Pair<Integer, Double>>();
 
         for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
             sMax = sMax < satisfacciones[i] ? satisfacciones[i] : sMax;
@@ -133,11 +137,40 @@ public class Turista {
             }
         }
 
+        if (provinciasMax.size() > 1) {
 
+            for (int i = 0; i < provinciasMax.size(); ++i) {
+                Pair<Integer, Double> p = new Pair<Integer, Double>(provinciasMax.get(i),
+                        ProvinciaFactory.getCostoEstadia(provinciasMax.get(i)) + ProvinciaFactory.getCostoTransporte(ubicacion, provinciasMax.get(i)));
+                provinciasCostoMax.add(p);
+            }
+
+            // Sorting
+            Collections.sort(provinciasCostoMax, new Comparator<Pair<Integer, Double>>() {
+                @Override
+                public int compare(Pair<Integer, Double> p1, Pair<Integer, Double> p2) {
+                    return (int) (p1.getValue() - p2.getValue());
+                }
+            });
+
+            for (int i = 0; i < provinciasCostoMax.size()*.33; ++i) {
+                System.out.println("COSTO:" + provinciasCostoMax.get(i).getValue());
+            }
+
+            Random r = new Random();
+            int indice = r.nextInt((int)(Math.floor(provinciasCostoMax.size()*.33)));
+            return provinciasCostoMax.get(indice).getKey();
+        } else {
+            return provinciasMax.get(0);
+        }
+    }
+
+
+        /*
         System.out.println("COMENZANDO MINIMOS    XXXXDXXXXXXXXXXXX");
 
         if (provinciasMax.size()>1) {
-            double costomin = 1000.0;
+            double costomin = 1000.0; //todo: reparar
             for (int i = 0; i < provinciasMax.size(); ++i) {
                 if (costomin > ProvinciaFactory.getCostoEstadia(provinciasMax.get(i)) + ProvinciaFactory.getCostoTransporte(ubicacion, provinciasMax.get(i))) {
                     costomin = ProvinciaFactory.getCostoEstadia(provinciasMax.get(i)) + ProvinciaFactory.getCostoTransporte(ubicacion, provinciasMax.get(i));
@@ -156,7 +189,7 @@ public class Turista {
                 }
             }
 
-
+          */
 
 
             //Collections.shuffle(provinciasMin);
@@ -176,7 +209,7 @@ public class Turista {
             System.out.print(getNombre(arrayProvinciaMax[i]) + ", ");
         }
         System.out.println();*/
-
+              /*
             System.out.print("Imprimiendo orden de provincias (" + id +  "): ");
             for (int i = 0; i < provinciasMax.size(); i++) {
                 System.out.print(getNombre(provinciasMax.get(i)) + ", ");
@@ -188,7 +221,7 @@ public class Turista {
         else {
             return provinciasMax.get(0);
         }
-    }
+    }           */
 
             /*
         int numProv = provinciasMax.size();

@@ -4,11 +4,9 @@ import javafx.util.Pair;
 
 
 import java.util.*;
-//import javax.util.*;
 
 import static SelectTur.Main.NUMERO_PREFERENCIAS;
 import static SelectTur.ProvinciaFactory.NUMERO_PROVINCIAS;
-import static SelectTur.ProvinciaFactory.getNombre;
 
 public class Turista {
     private static int userID = 0;
@@ -62,6 +60,12 @@ public class Turista {
             if (estadias[i] == ProvinciaFactory.getMaxEstadia(i)) {
                 provFactibles[i] = false;
             }
+        }
+    }
+
+    private void filtroProvPorHuida(int futuraUbicacion) {
+        if (ubicacion !=  futuraUbicacion) {
+            provFactibles[ubicacion] = false;
         }
     }
 
@@ -142,6 +146,7 @@ public class Turista {
             for (int i = 0; i < provinciasMax.size(); ++i) {
                 Pair<Integer, Double> p = new Pair<Integer, Double>(provinciasMax.get(i),
                         ProvinciaFactory.getCostoEstadia(provinciasMax.get(i)) + ProvinciaFactory.getCostoTransporte(ubicacion, provinciasMax.get(i)));
+
                 provinciasCostoMax.add(p);
             }
 
@@ -153,12 +158,29 @@ public class Turista {
                 }
             });
 
-            for (int i = 0; i < provinciasCostoMax.size()*.33; ++i) {
-                System.out.println("COSTO:" + provinciasCostoMax.get(i).getValue());
+
+            int inicioFiltro = ubicacion == provinciasCostoMax.get(0).getKey()? 1: 0;
+
+            double limiteDiferencia = (provinciasCostoMax.get(provinciasCostoMax.size() - 1).getValue() -
+                    provinciasCostoMax.get(inicioFiltro).getValue())/3.0 + provinciasCostoMax.get(inicioFiltro).getValue();
+
+            if (provinciasCostoMax.size() > 1) {
+                provinciasCostoMax.removeIf(p -> p.getValue() > limiteDiferencia);
             }
 
+            System.out.println("============================:" + provinciasCostoMax.size());
+            for (int i = 0; i < provinciasCostoMax.size(); ++i) {
+                System.out.println("COSTO " + i + ", " + ProvinciaFactory.getNombre( provinciasCostoMax.get(i).getKey()) +" :" + provinciasCostoMax.get(i).getValue());
+            }
+            System.out.println("=============================");
+
             Random r = new Random();
-            int indice = r.nextInt((int)(Math.floor(provinciasCostoMax.size()*.33)));
+            int indice = r.nextInt((int)(Math.floor(provinciasCostoMax.size())));
+            int provinciaSeleccionada = provinciasCostoMax.get(indice).getKey();
+
+            System.out.println("Provincia Seleccionada: " + ProvinciaFactory.getNombre(provinciaSeleccionada));
+            System.out.println("=============================");
+
             return provinciasCostoMax.get(indice).getKey();
         } else {
             return provinciasMax.get(0);
@@ -258,6 +280,9 @@ public class Turista {
         debeSalir();
 
         int futuraUbicacion = obtenerProximaProvincia();
+
+        filtroProvPorHuida(futuraUbicacion);
+        
         pagarCostoTransporte(ubicacion, futuraUbicacion);
 
         ubicacionanterior = ubicacion;

@@ -15,9 +15,9 @@ public class Main {
             ProvinciaFactory.BARCELONA, ProvinciaFactory.MADRID, ProvinciaFactory.MALAGA, ProvinciaFactory.BARCELONA,ProvinciaFactory.ALICANTE};
 
     static final double[][] PROBABILIDADES_PREFERENCIAS = new double[][]{
-            {1, 1, 1, 1, 0, 0, 0, 0},
-            {0, 1, 1, 0, 1, 1, 0, 0},
-            {0, 0, 1, 1, 0, 1, 1, 0},
+            {1, 0, 1, 1, 0, 1, 0},
+            {1, 1, 1, 0, 0, 0, 1},
+            {1, 1, 0, 1, 1, 0, 0},
             {0.133, 0.1738, 0.3654, 0.9128, 0.9131, 0.9168, 0.9835, 1}};
 
     static final int NUMERO_PREFERENCIAS = PROBABILIDADES_PREFERENCIAS.length - 1;

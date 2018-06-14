@@ -79,7 +79,7 @@ class TuristaFactory {
                 contadorUbicacion = 0;
             }
 
-            ubicacion = UBICACIONES_INICIALES[contadorUbicacion];
+            //ubicacion = UBICACIONES_INICIALES[contadorUbicacion];
 
             preferencias[i][0] = PROBABILIDADES_PREFERENCIAS[0][contadorPreferencias] == 1;
             preferencias[i][1] = PROBABILIDADES_PREFERENCIAS[1][contadorPreferencias] == 1;
@@ -87,7 +87,7 @@ class TuristaFactory {
 
             int tipoAgente = contadorPreferencias;  //contador es el tipo
 
-            turistas.add(new Turista(getPresupuesto(), preferencias[i], ubicacion, tipoAgente));
+            turistas.add(new Turista(getPresupuesto(), preferencias[i], -1, tipoAgente));
             ++contadorPreferencias;
             ++contadorUbicacion;
         }

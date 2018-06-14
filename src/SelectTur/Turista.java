@@ -30,7 +30,11 @@ public class Turista {
         this.activo = true;
         this.presupuesto = presupuesto;
         this.preferencias = preferencias;
-        this.ubicacion = ubicacion;
+
+        //this.ubicacion = ubicacion;
+
+        //System.out.println("ubi:" + ubicacion + " ubix:" + this.ubicacion);
+
         this.id = ++userID;
         this.bitacora = new Bitacora();
 
@@ -53,15 +57,22 @@ public class Turista {
             
             estadias[i] = 0;
         }
-        ubicacion = obtenerAzarMayorSatisfaccion();
 
-        this.satisfaccion = calcularPreferencias(ubicacion);
+        this.ubicacion = obtenerAzarMayorSatisfaccion();
+
+        this.satisfaccion = calcularPreferencias(this.ubicacion);
+
+        System.out.println("ubi:" + ubicacion + "   ubix:" + this.ubicacion);
+
     }
 
     @Override
     public int hashCode() {
         return id;
     }
+
+
+
 
     private void filtroProvPorPresupuesto() {
         for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
@@ -85,8 +96,16 @@ public class Turista {
         }
     }
 
+    private double calcularCostoTransporteEstadia(int origen, int destino) {
+        return ProvinciaFactory.getCostoEstadia(origen) + ProvinciaFactory.getCostoTransporte(origen, destino);
+    }
+
+    private double calcularDistancia(int origen, int destino) {
+        return ProvinciaFactory.getDistanciaEstadia(origen,destino);
+    }
+
     private void filtrar() {
-        filtroProvPorPresupuesto();
+        //filtroProvPorPresupuesto();
         filtroProvPorEstadia();
     }
 
@@ -150,7 +169,6 @@ public class Turista {
 
     private void pagarCostoTransporte(int origen, int destino) {
         presupuesto -= ProvinciaFactory.getCostoTransporte(origen, destino);
-
     }
 
     private int obtenerProximaProvincia() {
@@ -158,7 +176,8 @@ public class Turista {
         ArrayList<Integer> provinciasMax = new ArrayList<Integer>();
         Random random = new Random();
 
-        provSatisfaccion[ubicacion] = random.nextDouble() >= 0.5? -1.0 : provSatisfaccion [ubicacion];
+        provSatisfaccion[ubicacion] = -1; //todo: validacion
+        //provSatisfaccion[ubicacion] = random.nextDouble() >= 0.5? -1.0 : provSatisfaccion [ubicacion];
 
         for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
             sMax = sMax < provSatisfaccion[i] ? provSatisfaccion[i] : sMax;
@@ -180,8 +199,10 @@ public class Turista {
             int provinciamin = -1;
 
             for (int i = 0; i < provinciasMax.size(); ++i) {
-                if (costomin > ProvinciaFactory.getCostoEstadia(provinciasMax.get(i)) + ProvinciaFactory.getCostoTransporte(ubicacion, provinciasMax.get(i))) {
-                    costomin = ProvinciaFactory.getCostoEstadia(provinciasMax.get(i)) + ProvinciaFactory.getCostoTransporte(ubicacion, provinciasMax.get(i));
+                //double costTemp = calcularCostoTransporteEstadia(ubicacion, i);
+                  double costTemp = calcularDistancia(ubicacion, i);
+                if (costomin > costTemp) {
+                    costomin = costTemp;
                     provinciamin = provinciasMax.get(i);
                 }
             }
@@ -377,8 +398,11 @@ public class Turista {
 
 
     void registrarBitacora(int dia) {
-        double costo = ProvinciaFactory.getCostoEstadia(ubicacion) + ProvinciaFactory.getCostoTransporte(ubicacionanterior, ubicacion);
-        bitacora.agregar(hashCode(), dia, presupuesto, satisfaccion, preferencias, ubicacion, activo, costo);
+        //double costo = ProvinciaFactory.getCostoEstadia(ubicacion) + ProvinciaFactory.getCostoTransporte(ubicacionanterior, ubicacion);
+        double distancia = calcularDistancia(ubicacionanterior,ubicacion);
+
+        bitacora.agregar(hashCode(), dia, provSatisfaccion[ubicacion], satisfaccion, preferencias, ubicacion, activo, distancia);
+        //bitacora.agregar(hashCode(), dia, presupuesto, satisfaccion, preferencias, ubicacion, activo, costo);
     }
 
     Bitacora obtenerBitacora() {

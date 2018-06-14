@@ -6,7 +6,7 @@ import static SelectTur.Main.PERIODOS;
 
 public class MainExperiment {
 
-    private static final int NUMERO_SIMULACIONES = 10;
+    private static final int NUMERO_SIMULACIONES = 1;
 
     public static void main(String[] args) {
         ProvinciaFactory.inicializar();

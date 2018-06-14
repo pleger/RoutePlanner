@@ -3,8 +3,8 @@ package SelectTur;
 public class Main {
 
     static final String DESCRIPCION = "SIMULACION";
-    static final int NUMERO_AGENTES = 1;  //18000
-    static final int PERIODOS = 24;
+    static final int NUMERO_AGENTES = 8;  //18000
+    static final int PERIODOS = 22;
 
     /*
     static final double[][] UBICACIONES_INICIALES = new double[][]{

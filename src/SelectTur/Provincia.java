@@ -7,9 +7,9 @@ public class Provincia {
     private double costoEstadia;
     private String nombre;
     private int comunidad;
-    private boolean[] preferencias = new boolean[Main.PROBABILIDADES_PREFERENCIAS.length];
+    private double[] preferencias = new double[Main.PROBABILIDADES_PREFERENCIAS.length];
 
-    Provincia(int codProvincia, int comunidad, int estadia, boolean[] preferencias, double costoEstadia){
+    Provincia(int codProvincia, int comunidad, int estadia, double[] preferencias, double costoEstadia){
         this.codigo = codProvincia;
         this.comunidad = comunidad;
         this.maxEstadia = estadia;
@@ -28,7 +28,7 @@ public class Provincia {
     int getEstadia() { return this.maxEstadia; }
     private String getNombre() { return this.nombre; }
     public int getComunidad() { return this.comunidad; }
-    boolean[] getPreferencias() { return this.preferencias; }
+    double[] getPreferencias() { return this.preferencias; }
 
     @Override
     public String toString() {

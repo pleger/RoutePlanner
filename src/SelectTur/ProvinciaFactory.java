@@ -35,9 +35,9 @@ class ProvinciaFactory {
     static final int GIPUZKOA = 21;
     static final int BIZKAIA = 22;
 
-    static final boolean CULTURA = true;
-    static final boolean SOLYPLAYA = true;
     static final boolean GASTRONOMIA = true;
+    static final boolean CULTURA = true;
+    static final boolean VIDANOCTURNA= true;
     private static Vector<Provincia> provincias;
     private static double[][] costoTransporte;
     static int NUMERO_PROVINCIAS;
@@ -81,29 +81,29 @@ class ProvinciaFactory {
 
     static void crearProvincias() {
         provincias = new Vector<Provincia>();
-        provincias.add(new Provincia(MADRID, COMMADRID,4, new boolean[]{CULTURA, false, GASTRONOMIA},40.55));
-        provincias.add(new Provincia(ALMERIA, COMANDALUCIA, 4, new boolean[]{false, SOLYPLAYA, false},27.01));
-        provincias.add(new Provincia(CADIZ, COMANDALUCIA, 3, new boolean[]{false, SOLYPLAYA, false},30.04));
-        provincias.add(new Provincia(CORDOBA, COMANDALUCIA, 2, new boolean[]{CULTURA, false, GASTRONOMIA},46.48));
-        provincias.add(new Provincia(GRANADA, COMANDALUCIA, 3, new boolean[]{CULTURA, SOLYPLAYA, GASTRONOMIA},28.68));
-        provincias.add(new Provincia(HUELVA, COMANDALUCIA, 5, new boolean[]{CULTURA, SOLYPLAYA, GASTRONOMIA},51.75));
-        provincias.add(new Provincia(JAEN, COMANDALUCIA, 2, new boolean[]{false, false, GASTRONOMIA},33.24));
-        provincias.add(new Provincia(MALAGA, COMANDALUCIA, 5, new boolean[]{false, SOLYPLAYA, GASTRONOMIA},37.75));
-        provincias.add(new Provincia(SEVILLA, COMANDALUCIA, 3, new boolean[]{CULTURA, false, GASTRONOMIA},31.73));
-        provincias.add(new Provincia(BARCELONA, COMCATALUNA, 4, new boolean[]{CULTURA, SOLYPLAYA, false},42.42));
-        provincias.add(new Provincia(GIRONA, COMCATALUNA,6, new boolean[]{false, SOLYPLAYA, GASTRONOMIA},47.78));
-        provincias.add(new Provincia(LLEIDA, COMCATALUNA, 7, new boolean[]{false, false, GASTRONOMIA},43.47));
-        provincias.add(new Provincia(TARRAGONA, COMCATALUNA, 6, new boolean[]{false, SOLYPLAYA, false},50.35));
-        provincias.add(new Provincia(ALICANTE, COMVALENCIANA, 5, new boolean[]{false, SOLYPLAYA, false},48.33));
-        provincias.add(new Provincia(CASTELLON, COMVALENCIANA, 5, new boolean[]{false, SOLYPLAYA, false},66.15));
-        provincias.add(new Provincia(VALENCIA, COMVALENCIANA, 4, new boolean[]{false, SOLYPLAYA, false},62.98));
-        provincias.add(new Provincia(ACORUNA, COMGALICIA, 7, new boolean[]{CULTURA, SOLYPLAYA, false},39.46));
-        provincias.add(new Provincia(LUGO, COMGALICIA, 2, new boolean[]{false, SOLYPLAYA, GASTRONOMIA},23.94));
-        provincias.add(new Provincia(OURENSE, COMGALICIA, 4, new boolean[]{false, false, GASTRONOMIA},19.47));
-        provincias.add(new Provincia(PONTEVEDRA, COMGALICIA,4, new boolean[]{false, SOLYPLAYA, false},57.44));
-        provincias.add(new Provincia(ALAVA, COMPAISVASCO,2, new boolean[]{false, false, GASTRONOMIA, false},47.31));
-        provincias.add(new Provincia(GIPUZKOA, COMPAISVASCO,3, new boolean[]{false, SOLYPLAYA, false},43.39));
-        provincias.add(new Provincia(BIZKAIA, COMPAISVASCO,3, new boolean[]{CULTURA, SOLYPLAYA, false},39.45));
+        provincias.add(new Provincia(MADRID, COMMADRID,4, new double[]{2.76244827969865, 1.71378706531551, 3.5748459963147},40.55));
+        provincias.add(new Provincia(ALMERIA, COMANDALUCIA, 4, new double[]{2.64501891486188, 2.95022317618271, 3.41601178597167},27.01));
+        provincias.add(new Provincia(CADIZ, COMANDALUCIA, 3, new double[]{2.05354879222353, 1.84077675862571, 1.35746107332561},30.04));
+        provincias.add(new Provincia(CORDOBA, COMANDALUCIA, 2, new double[]{2.06864403601014, 5.065426611383, 2.38202258871839},46.48));
+        provincias.add(new Provincia(GRANADA, COMANDALUCIA, 3, new double[]{3.96413937925122, 4.99819953124364, 3.95296055442349},28.68));
+        provincias.add(new Provincia(HUELVA, COMANDALUCIA, 5, new double[]{1.99256903717531, 4.47239463457659, 2.81932096968315},51.75));
+        provincias.add(new Provincia(JAEN, COMANDALUCIA, 2, new double[]{1.48327711758736, 5.56289066443793, 2.53886202463062},33.24));
+        provincias.add(new Provincia(MALAGA, COMANDALUCIA, 5, new double[]{6.12168666106884, 6.06713196078394, 8.79281514141428},37.75));
+        provincias.add(new Provincia(SEVILLA, COMANDALUCIA, 3, new double[]{2.60409425376148, 3.93461990647886, 4.26192613147787},31.73));
+        provincias.add(new Provincia(BARCELONA, COMCATALUNA, 4, new double[]{5.34201347104775, 3.30507130084307, 5.8247947644014},42.42));
+        provincias.add(new Provincia(GIRONA, COMCATALUNA,6, new double[]{9.10408479303681, 7.46947655697084, 7.71154386834572},47.78));
+        provincias.add(new Provincia(LLEIDA, COMCATALUNA, 7, new double[]{5.33466542264785, 7.91491986923864, 3.9475757719927},43.47));
+        provincias.add(new Provincia(TARRAGONA, COMCATALUNA, 6, new double[]{7.484766760248, 7.00582350859973, 5.54393015018831},50.35));
+        provincias.add(new Provincia(ALICANTE, COMVALENCIANA, 5, new double[]{4.33570791172017, 3.72821646669657, 7.52087857568827},48.33));
+        provincias.add(new Provincia(CASTELLON, COMVALENCIANA, 5, new double[]{2.6951983173616, 4.27222595156713, 4.19483184321714},66.15));
+        provincias.add(new Provincia(VALENCIA, COMVALENCIANA, 4, new double[]{3.31841031616266, 2.22948622122683, 2.74481765645111},62.98));
+        provincias.add(new Provincia(ACORUNA, COMGALICIA, 7, new double[]{3.58540460383957, 4.61732694721644, 4.04839597058701},39.46));
+        provincias.add(new Provincia(LUGO, COMGALICIA, 2, new double[]{2.02641049978806, 4.71613875007623, 2.99650912190728},23.94));
+        provincias.add(new Provincia(OURENSE, COMGALICIA, 4, new double[]{2.55193652874098, 4.22797836702614, 4.77224739469212},19.47));
+        provincias.add(new Provincia(PONTEVEDRA, COMGALICIA,4, new double[]{4.09197294859111, 3.90140204474989, 4.65571906768},57.44));
+        provincias.add(new Provincia(ALAVA, COMPAISVASCO,2, new double[]{14.1261948232631, 4.87832019294163, 4.70393155100395},47.31));
+        provincias.add(new Provincia(GIPUZKOA, COMPAISVASCO,3, new double[]{5.80549044840472, 3.08991220826726, 4.03412934623054},43.39));
+        provincias.add(new Provincia(BIZKAIA, COMPAISVASCO,3, new double[]{4.50231668350916, 2.03825130555169, 4.20446865165465},39.45));
 
         NUMERO_PROVINCIAS = provincias.size();
     }
@@ -120,7 +120,7 @@ class ProvinciaFactory {
         return getProvincia(codigo).getEstadia();
     }
 
-    static boolean[] getPreferencias(int codigo) {
+    static double[] getPreferencias(int codigo) {
         return getProvincia(codigo).getPreferencias();
     }
 

@@ -1,5 +1,6 @@
 package SelectTur;
 
+import com.sun.xml.internal.fastinfoset.algorithm.IntEncodingAlgorithm;
 import javafx.util.Pair;
 
 
@@ -36,17 +37,23 @@ public class Turista {
         provSatisfaccion = new double[NUMERO_PROVINCIAS];
         estadias = new int[NUMERO_PROVINCIAS];
 
+
+        //System.out.println("UMBRALES: " + UMBRALESSATISFACCIONES[tipoAgente][0] + "," + UMBRALESSATISFACCIONES[tipoAgente][1] + "," +  UMBRALESSATISFACCIONES[tipoAgente][2]);
+
         for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
             double prefSatis = calcularPreferencias(i);
 
-            provSatisfaccion[i] = prefSatis <= UMBRALESSATISFACCIONES[0][tipoAgente]? UMBRALESSATISFACCIONES[0][tipoAgente]:
-                                  prefSatis <= UMBRALESSATISFACCIONES[1][tipoAgente]? UMBRALESSATISFACCIONES[1][tipoAgente]:
-                                          prefSatis <= UMBRALESSATISFACCIONES[2][tipoAgente]? UMBRALESSATISFACCIONES[2][tipoAgente]: -1000;
+
+            provSatisfaccion[i] = prefSatis <= UMBRALESSATISFACCIONES[tipoAgente][0]? UMBRALESSATISFACCIONES[tipoAgente][0]:
+                                  prefSatis <= UMBRALESSATISFACCIONES[tipoAgente][1]? UMBRALESSATISFACCIONES[tipoAgente][1]:
+                                          prefSatis <= UMBRALESSATISFACCIONES[tipoAgente][2]? UMBRALESSATISFACCIONES[tipoAgente][2]: -1000;
+
+
+            //System.out.println("INNER   Satis:" + prefSatis + "   prov:" + provSatisfaccion[i] + " ciudad:" + i + " Agente:" + tipoAgente);
+            
             estadias[i] = 0;
         }
-
-
-
+        ubicacion = obtenerAzarMayorSatisfaccion();
 
         this.satisfaccion = calcularPreferencias(ubicacion);
     }
@@ -94,6 +101,32 @@ public class Turista {
         this.activo = false;
     }
 
+    int obtenerAzarMayorSatisfaccion() {
+        Random random = new Random();
+
+        ArrayList<Integer> lista = obtenerListaMayorSatisfaccion();
+        int size = lista.size();
+
+        return lista.get(random.nextInt(size));
+    }
+
+    ArrayList<Integer> obtenerListaMayorSatisfaccion() {
+        ArrayList<Integer> provinciasMax = new ArrayList<Integer>();
+        double sMax = 0;
+
+        for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
+            sMax = sMax < provSatisfaccion[i] ? provSatisfaccion[i] : sMax;
+        }
+
+        for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
+            if (sMax == provSatisfaccion[i]) {
+                provinciasMax.add(i);
+            }
+        }
+
+        return provinciasMax;
+    }
+
     private double calcularPreferencias(int codigoProvincia) {
         double sumaPreferencias = 0.0;
 
@@ -125,8 +158,9 @@ public class Turista {
         ArrayList<Integer> provinciasMax = new ArrayList<Integer>();
         Random random = new Random();
 
+        provSatisfaccion[ubicacion] = random.nextDouble() >= 0.5? -1.0 : provSatisfaccion [ubicacion];
+
         for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
-            System.out.println("A:"+ provSatisfaccion[i]);
             sMax = sMax < provSatisfaccion[i] ? provSatisfaccion[i] : sMax;
         }
 
@@ -138,14 +172,26 @@ public class Turista {
 
         int provinciaSeleccionada = -5;
 
-        System.out.println(" Numero de provincias max: " + provinciasMax.size());
 
         if (provinciasMax.size() > 1) {
-            provinciaSeleccionada = provinciasMax.get(random.nextInt(provinciasMax.size()));
+            //provinciaSeleccionada = provinciasMax.get(random.nextInt(provinciasMax.size()));
+
+            double costomin = Double.MAX_VALUE;
+            int provinciamin = -1;
+
+            for (int i = 0; i < provinciasMax.size(); ++i) {
+                if (costomin > ProvinciaFactory.getCostoEstadia(provinciasMax.get(i)) + ProvinciaFactory.getCostoTransporte(ubicacion, provinciasMax.get(i))) {
+                    costomin = ProvinciaFactory.getCostoEstadia(provinciasMax.get(i)) + ProvinciaFactory.getCostoTransporte(ubicacion, provinciasMax.get(i));
+                    provinciamin = provinciasMax.get(i);
+                }
+            }
+            provinciaSeleccionada = provinciamin;
+
         } else {
             provinciaSeleccionada = provinciasMax.get(0);
         }
 
+        System.out.println(" Numero de provincias max: " + provinciasMax.size() + "     Seleccionada:" + ProvinciaFactory.getNombre(provinciaSeleccionada) + "           Umbral:" + sMax);
         return provinciaSeleccionada;
     }
 

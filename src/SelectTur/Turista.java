@@ -7,6 +7,7 @@ import java.util.*;
 
 import static SelectTur.Main.NUMERO_PREFERENCIAS;
 import static SelectTur.ProvinciaFactory.NUMERO_PROVINCIAS;
+import static SelectTur.Umbrales.*;
 
 public class Turista {
     private static int userID = 0;
@@ -23,7 +24,7 @@ public class Turista {
     private double[] provSatisfaccion;
     private int[] estadias;
 
-    Turista(double presupuesto, boolean[] preferencias, int ubicacion) {
+    Turista(double presupuesto, boolean[] preferencias, int ubicacion, int tipoAgente) {
 
         this.activo = true;
         this.presupuesto = presupuesto;
@@ -36,11 +37,16 @@ public class Turista {
         estadias = new int[NUMERO_PROVINCIAS];
 
         for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
-            provSatisfaccion[i] = calcularPreferencias(i);
+            double prefSatis = calcularPreferencias(i);
+
+            provSatisfaccion[i] = prefSatis <= UMBRALESSATISFACCIONES[0][tipoAgente]? UMBRALESSATISFACCIONES[0][tipoAgente]:
+                                  prefSatis <= UMBRALESSATISFACCIONES[1][tipoAgente]? UMBRALESSATISFACCIONES[1][tipoAgente]:
+                                          prefSatis <= UMBRALESSATISFACCIONES[2][tipoAgente]? UMBRALESSATISFACCIONES[2][tipoAgente]: -1000;
             estadias[i] = 0;
         }
 
-        
+
+
 
         this.satisfaccion = calcularPreferencias(ubicacion);
     }
@@ -53,7 +59,7 @@ public class Turista {
     private void filtroProvPorPresupuesto() {
         for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
             if (presupuesto < (ProvinciaFactory.getCostoTransporte(this.ubicacion, i) + ProvinciaFactory.getCostoEstadia(i))) {
-                provSatisfaccion[i] = false;
+                provSatisfaccion[i] = -1;
             }
         }
     }
@@ -61,14 +67,14 @@ public class Turista {
     private void filtroProvPorEstadia() {
         for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
             if (estadias[i] == ProvinciaFactory.getMaxEstadia(i)) {
-                provSatisfaccion[i] = false;
+                provSatisfaccion[i] = -1;
             }
         }
     }
 
     private void filtroProvPorHuida(int futuraUbicacion) {
         if (ubicacion !=  futuraUbicacion) {
-            provSatisfaccion[ubicacion] = false;
+            provSatisfaccion[ubicacion] = -1;
         }
     }
 
@@ -79,7 +85,7 @@ public class Turista {
 
     private void debeSalir() {
         for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
-            if (provSatisfaccion[i]) {
+            if (provSatisfaccion[i] >= 0) {
                 this.activo = true;
                 return;
             }
@@ -115,7 +121,37 @@ public class Turista {
     }
 
     private int obtenerProximaProvincia() {
-        double[] satisfacciones = calcularSatisfacciones();
+        double sMax = 0;
+        ArrayList<Integer> provinciasMax = new ArrayList<Integer>();
+        Random random = new Random();
+
+        for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
+            System.out.println("A:"+ provSatisfaccion[i]);
+            sMax = sMax < provSatisfaccion[i] ? provSatisfaccion[i] : sMax;
+        }
+
+        for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
+            if (sMax == provSatisfaccion[i]) {
+                provinciasMax.add(i);
+            }
+        }
+
+        int provinciaSeleccionada = -5;
+
+        System.out.println(" Numero de provincias max: " + provinciasMax.size());
+
+        if (provinciasMax.size() > 1) {
+            provinciaSeleccionada = provinciasMax.get(random.nextInt(provinciasMax.size()));
+        } else {
+            provinciaSeleccionada = provinciasMax.get(0);
+        }
+
+        return provinciaSeleccionada;
+    }
+
+
+    /*
+    private int obtenerProximaProvincia() {
         double sMax = satisfacciones[ubicacion]; //satisfaccion
         ArrayList<Integer> provinciasMax = new ArrayList<Integer>();
         ArrayList<Pair<Integer, Double>> provinciasCostoMax = new ArrayList<Pair<Integer, Double>>();
@@ -286,12 +322,11 @@ public class Turista {
         return estadias[codigo];
     }
 
-    private boolean obtenerProvFactibles(int i) {
+    private double obtenerProvFactibles(int i) {
         return provSatisfaccion[i];
     }
     private double obtenerSatisfacciones (int i) {
-        double [] satisfacciones = calcularSatisfacciones();
-        return satisfacciones[i];
+        return provSatisfaccion[i];
     }
 
 

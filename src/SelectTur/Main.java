@@ -6,11 +6,14 @@ public class Main {
     static final int NUMERO_AGENTES = 1;  //18000
     static final int PERIODOS = 24;
 
-    /*static final double[][] UBICACIONES_INICIALES = new double[][]{
+    /*
+    static final double[][] UBICACIONES_INICIALES = new double[][]{
             {ProvinciaFactory.ALAVA, ProvinciaFactory.BARCELONA, ProvinciaFactory.ACORUNA,
                     ProvinciaFactory.MADRID, ProvinciaFactory.SEVILLA, ProvinciaFactory.VALENCIA},
             {0.0044, 0.544, 0.5923,
-                    0.8353, 0.9183, 1}};*/
+                    0.8353, 0.9183, 1}};
+    */
+
     static final int[] UBICACIONES_INICIALES = new int[]{ProvinciaFactory.MADRID, ProvinciaFactory.MADRID, ProvinciaFactory.BARCELONA,
             ProvinciaFactory.BARCELONA, ProvinciaFactory.MADRID, ProvinciaFactory.MALAGA, ProvinciaFactory.BARCELONA,ProvinciaFactory.ALICANTE};
 

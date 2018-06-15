@@ -46,7 +46,7 @@ class ProvinciaFactory {
 
     static void inicializar() {
         crearProvincias();
-        crearCostoTransporte();
+        crearDistanciaTransporte();
     }
 /*
     static void crearProvincias() {

@@ -377,7 +377,7 @@ public class Turista {
 
         filtroProvPorHuida(futuraUbicacion);
         
-        pagarCostoTransporte(ubicacion, futuraUbicacion);
+        //pagarCostoTransporte(ubicacion, futuraUbicacion);
 
         ubicacionanterior = ubicacion;
         ubicacion = futuraUbicacion;

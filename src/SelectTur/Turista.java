@@ -200,7 +200,7 @@ public class Turista {
 
             for (int i = 0; i < provinciasMax.size(); ++i) {
                 //double costTemp = calcularCostoTransporteEstadia(ubicacion, i);
-                  double costTemp = calcularDistancia(ubicacion, i);
+                  double costTemp = calcularDistancia(ubicacion, provinciasMax.get(i));
                 if (costomin > costTemp) {
                     costomin = costTemp;
                     provinciamin = provinciasMax.get(i);

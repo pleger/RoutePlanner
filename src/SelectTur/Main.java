@@ -3,7 +3,7 @@ package SelectTur;
 public class Main {
 
     static final String DESCRIPCION = "SIMULACION";
-    static final int NUMERO_AGENTES = 8;  //18000
+    static final int NUMERO_AGENTES = 7;  //18000
     static final int PERIODOS = 22;
 
     /*

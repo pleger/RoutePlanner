@@ -184,9 +184,17 @@ public class Turista {
         ArrayList<Integer> provinciasMax = new ArrayList<Integer>();
         Random random = new Random();
 
-        provSatisfaccion[ubicacion] = -1; //todo: validacion
+
+        //validacion
+        //provSatisfaccion[ubicacion] = -1; //todo: validacion
+
+        //estadia
+        provSatisfaccion[ubicacion] = random.nextDouble() >
+                1.0 * obtenerEstadia(ubicacion)/ProvinciaFactory.getMaxEstadia(ubicacion)? provSatisfaccion[ubicacion] : -1;
+
+        //50%
         //provSatisfaccion[ubicacion] = random.nextDouble() >= 0.5? -1.0 : provSatisfaccion [ubicacion]; 50%
-        
+
 
         for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
             sMax = sMax < provSatisfaccion[i] ? provSatisfaccion[i] : sMax;

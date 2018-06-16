@@ -41,12 +41,20 @@ public class Turista {
         provSatisfaccion = new double[NUMERO_PROVINCIAS];
         estadias = new int[NUMERO_PROVINCIAS];
 
-
-        //System.out.println("UMBRALES: " + UMBRALESSATISFACCIONES[tipoAgente][0] + "," + UMBRALESSATISFACCIONES[tipoAgente][1] + "," +  UMBRALESSATISFACCIONES[tipoAgente][2]);
+        //this.ubicacion = obtenerAzarMayorSatisfaccion();
 
         for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
             double prefSatis = calcularPreferencias(i);
+            if (prefSatis == UMBRALESSATISFACCIONES[tipoAgente][2]) {
+                this.ubicacion = i;
+                break;
+            }
+        }
 
+            //System.out.println("UMBRALES: " + UMBRALESSATISFACCIONES[tipoAgente][0] + "," + UMBRALESSATISFACCIONES[tipoAgente][1] + "," +  UMBRALESSATISFACCIONES[tipoAgente][2]);
+
+        for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
+            double prefSatis = calcularPreferencias(i);
 
             provSatisfaccion[i] = prefSatis <= UMBRALESSATISFACCIONES[tipoAgente][0]? UMBRALESSATISFACCIONES[tipoAgente][0]:
                                   prefSatis <= UMBRALESSATISFACCIONES[tipoAgente][1]? UMBRALESSATISFACCIONES[tipoAgente][1]:
@@ -58,7 +66,7 @@ public class Turista {
             estadias[i] = 0;
         }
 
-        this.ubicacion = obtenerAzarMayorSatisfaccion();
+
 
         this.satisfaccion = calcularPreferencias(this.ubicacion);
 

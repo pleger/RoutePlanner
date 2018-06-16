@@ -177,7 +177,8 @@ public class Turista {
         Random random = new Random();
 
         provSatisfaccion[ubicacion] = -1; //todo: validacion
-        //provSatisfaccion[ubicacion] = random.nextDouble() >= 0.5? -1.0 : provSatisfaccion [ubicacion];
+        //provSatisfaccion[ubicacion] = random.nextDouble() >= 0.5? -1.0 : provSatisfaccion [ubicacion]; 50%
+        
 
         for (int i = 0; i < NUMERO_PROVINCIAS; ++i) {
             sMax = sMax < provSatisfaccion[i] ? provSatisfaccion[i] : sMax;
